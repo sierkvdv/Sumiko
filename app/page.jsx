@@ -160,13 +160,21 @@ function Hero({ onScrollToTeas }) {
 
       {/* Teapot removed per request */}
 
-      {/* Steam – stronger and more visible */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 w-[44rem] h-80 overflow-visible z-[2]" style={{ transform: "translateX(-50%)" }}>
-        <div className="absolute bottom-8 left-[40%] w-32 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpA 6.5s ease-in-out infinite" }} />
-        <div className="absolute bottom-7 left-[50%] w-28 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpB 8s ease-in-out infinite 0.3s" }} />
-        <div className="absolute bottom-7 left-[60%] w-24 h-70 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpC 9.5s ease-in-out infinite 0.6s" }} />
-        <div className="absolute bottom-6 left-[47%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpB 10.5s ease-in-out infinite 1s" }} />
-        <div className="absolute bottom-6 left-[53%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpA 11.5s ease-in-out infinite 1.4s" }} />
+      {/* Steam – stronger and across full width */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-80 z-[2]">
+        {/* base soft mist */}
+        <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)" }} />
+        {/* plumes across width */}
+        <div className="absolute bottom-0 left-[10%] w-24 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpA 7s ease-in-out infinite" }} />
+        <div className="absolute bottom-0 left-[20%] w-24 h-68 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpB 8s ease-in-out infinite .2s" }} />
+        <div className="absolute bottom-0 left-[30%] w-28 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpC 9s ease-in-out infinite .4s" }} />
+        <div className="absolute bottom-0 left-[40%] w-24 h-74 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpA 10s ease-in-out infinite .6s" }} />
+        <div className="absolute bottom-0 left-[50%] w-28 h-84 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpB 8.5s ease-in-out infinite .8s" }} />
+        <div className="absolute bottom-0 left-[60%] w-24 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpC 9.5s ease-in-out infinite 1s" }} />
+        <div className="absolute bottom-0 left-[70%] w-26 h-78 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpA 11s ease-in-out infinite 1.2s" }} />
+        <div className="absolute bottom-0 left-[80%] w-22 h-70 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpB 10.5s ease-in-out infinite 1.4s" }} />
+        <div className="absolute bottom-0 left-[90%] w-24 h-76 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpC 12s ease-in-out infinite 1.6s" }} />
+        <div className="absolute bottom-0 left-[5%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpA 9s ease-in-out infinite .1s" }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 200px rgba(0,0,0,0.12)" }} />
