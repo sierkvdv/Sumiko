@@ -207,9 +207,10 @@ function Hero({ onScrollToTeas }) {
 
         /* New: organic wisps that rise, drift, rotate, and fade */
         @keyframes wispRise {
-          0%   { transform: translate(var(--x0,0), 36px) scale(var(--sx,1)) rotate(var(--r0,0deg)); opacity: .98; }
-          35%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -60px) scale(calc(var(--sx,1) * 1.05)) rotate(calc(var(--r0,0deg) + var(--spin,10deg))); opacity: .9; }
-          70%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -140px) scale(calc(var(--sx,1) * 1.08)) rotate(calc(var(--r0,0deg) + var(--spin,16deg))); opacity: .7; }
+          0%   { transform: translate(var(--x0,0), 36px)  scale(var(--sx,1))            rotate(var(--r0,0deg)); opacity: 0; }
+          10%  { transform: translate(var(--x0,0), 10px)  scale(calc(var(--sx,1) * 1))  rotate(var(--r0,0deg)); opacity: .4; }
+          50%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -100px) scale(calc(var(--sx,1) * 1.06)) rotate(calc(var(--r0,0deg) + var(--spin,14deg))); opacity: .75; }
+          90%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -210px) scale(calc(var(--sx,1) * 1.1))  rotate(calc(var(--r0,0deg) + var(--spin,18deg))); opacity: .6; }
           100% { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -240px) scale(calc(var(--sx,1) * 1.12)) rotate(calc(var(--r0,0deg) + var(--spin,22deg))); opacity: 0; }
         }
         .wisp {
@@ -218,7 +219,7 @@ function Hero({ onScrollToTeas }) {
           border-radius: 9999px;
           background: radial-gradient(60% 80% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 60%);
           filter: url(#steamNoise) blur(6px) contrast(140%) brightness(115%);
-          animation: wispRise var(--dur,8s) ease-in infinite;
+          animation: wispRise var(--dur,8s) linear infinite;
           animation-delay: var(--delay,0s);
           will-change: transform, opacity;
           pointer-events: none;
@@ -228,10 +229,10 @@ function Hero({ onScrollToTeas }) {
         /* Broad cloud plumes (so it looks like steam clouds instead of dots) */
         @keyframes plumeRise {
           0%   { transform: translate(var(--px,0), 120px) scale(calc(var(--ps,1) * .95)) rotate(var(--pr,0deg)); opacity: 0; }
-          12%  { opacity: .45; }
-          35%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -40px)  scale(calc(var(--ps,1) * 1.04)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
-          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -170px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -290px) scale(calc(var(--ps,1) * 1.14)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
+          20%  { transform: translate(var(--px,0), 40px)  scale(calc(var(--ps,1) * .98)) rotate(var(--pr,0deg));  opacity: .45; }
+          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -90px)  scale(calc(var(--ps,1) * 1.05)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
+          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -230px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
         }
         .plume {
           position: absolute;
@@ -240,7 +241,7 @@ function Hero({ onScrollToTeas }) {
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
           transform-origin: 50% 100%;
-          animation: plumeRise var(--pdur,11.5s) cubic-bezier(.25,.1,.25,1) infinite both;
+          animation: plumeRise var(--pdur,11.5s) linear infinite both;
           animation-delay: var(--pdelay,0s);
           will-change: transform, opacity;
           pointer-events: none;
@@ -254,14 +255,13 @@ function Hero({ onScrollToTeas }) {
       {/* SVG noise filter for realistic steam distortion */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden focusable="false">
         <filter id="steamNoise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3">
-            <animate attributeName="baseFrequency" dur="20s" values="0.008 0.012;0.012 0.018;0.008 0.012" repeatCount="indefinite" />
-            <animate attributeName="seed" dur="24s" values="3;20;40;60;80;3" repeatCount="indefinite" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7">
+            <animate attributeName="baseFrequency" dur="24s" values="0.008 0.012;0.012 0.018;0.008 0.012" repeatCount="indefinite" />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" scale="18">
-            <animate attributeName="scale" dur="18s" values="14;20;14" repeatCount="indefinite" />
+          <feDisplacementMap in="SourceGraphic" scale="16">
+            <animate attributeName="scale" dur="20s" values="12;18;12" repeatCount="indefinite" />
           </feDisplacementMap>
-          <feGaussianBlur stdDeviation="0.5" />
+          <feGaussianBlur stdDeviation="0.4" />
         </filter>
       </svg>
 
