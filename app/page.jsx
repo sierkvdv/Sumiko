@@ -220,6 +220,7 @@ function Hero({ onScrollToTeas }) {
           will-change: transform, opacity;
           pointer-events: none;
           mix-blend-mode: screen;
+          opacity: 0;
         }
       `}</style>
 
@@ -240,18 +241,20 @@ function Hero({ onScrollToTeas }) {
       </svg>
 
       {/* Steam – animated clouds (white, with noise distortion) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2] overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
         {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
-        {/* base white mist with noise */}
-        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.55) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(8px) contrast(130%) brightness(118%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
+        {/* base white mist with noise (lighter to avoid initial blotches) */}
+        <div className="absolute inset-x-0 bottom-0 h-36" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(10px) contrast(120%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
 
-        {/* broad cloud plumes across the width (fewer, larger, more cloud-like) */}
-        <div className="plume" style={{ left: '12%', width: '220px', height: '260px', '--px': '0px', '--pdrift': '28px', '--ps': '1',   '--pr': '-2deg', '--pdur': '10s', '--pdelay': '.2s' }} />
-        <div className="plume" style={{ left: '32%', width: '240px', height: '270px', '--px': '0px', '--pdrift': '-24px','--ps': '1.05','--pr': '1deg',  '--pdur': '11s', '--pdelay': '.6s' }} />
-        <div className="plume" style={{ left: '52%', width: '230px', height: '260px', '--px': '0px', '--pdrift': '22px', '--ps': '1',   '--pr': '0deg',  '--pdur': '10.5s','--pdelay': '0s' }} />
-        <div className="plume" style={{ left: '72%', width: '250px', height: '280px', '--px': '0px', '--pdrift': '-26px','--ps': '1.06','--pr': '-1deg','--pdur': '11.3s','--pdelay': '.8s' }} />
-        <div className="plume" style={{ left: '88%', width: '220px', height: '260px', '--px': '0px', '--pdrift': '24px', '--ps': '1',   '--pr': '2deg',  '--pdur': '10.8s','--pdelay': '.4s' }} />
+        {/* broad cloud plumes across the width with staggered starts */}
+        <div className="plume" style={{ left: '8%',  width: '220px', height: '260px', '--px': '0px', '--pdrift': '28px', '--ps': '1',   '--pr': '-2deg', '--pdur': '12s',  '--pdelay': '.8s' }} />
+        <div className="plume" style={{ left: '22%', width: '240px', height: '270px', '--px': '0px', '--pdrift': '-24px','--ps': '1.05','--pr': '1deg',  '--pdur': '11.5s','--pdelay': '1.4s' }} />
+        <div className="plume" style={{ left: '35%', width: '230px', height: '260px', '--px': '0px', '--pdrift': '22px', '--ps': '1',   '--pr': '0deg',  '--pdur': '12.2s','--pdelay': '.2s' }} />
+        <div className="plume" style={{ left: '50%', width: '250px', height: '280px', '--px': '0px', '--pdrift': '-26px','--ps': '1.06','--pr': '-1deg','--pdur': '13s',  '--pdelay': '1.0s' }} />
+        <div className="plume" style={{ left: '64%', width: '220px', height: '260px', '--px': '0px', '--pdrift': '20px', '--ps': '1',   '--pr': '2deg',  '--pdur': '11.8s','--pdelay': '.5s' }} />
+        <div className="plume" style={{ left: '78%', width: '240px', height: '270px', '--px': '0px', '--pdrift': '-22px','--ps': '1.03','--pr': '1deg',  '--pdur': '12.6s','--pdelay': '1.7s' }} />
+        <div className="plume" style={{ left: '92%', width: '230px', height: '265px', '--px': '0px', '--pdrift': '24px', '--ps': '1',   '--pr': '-1deg','--pdur': '11.9s','--pdelay': '.1s' }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
