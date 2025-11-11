@@ -179,29 +179,50 @@ function Hero({ onScrollToTeas }) {
           75%{ transform: translate(-50%, -135px) scale(1.14); opacity: .7; }
           100%{ transform: translate(-50%, -185px) scale(1.16); opacity: .55; } 
         }
+
+        /* New: organic wisps that rise, drift, rotate, and fade */
+        @keyframes wispRise {
+          0%   { transform: translate(var(--x0,0), 24px) scale(var(--sx,1)) rotate(var(--r0,0deg)); opacity: .98; }
+          35%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -60px) scale(calc(var(--sx,1) * 1.05)) rotate(calc(var(--r0,0deg) + var(--spin,10deg))); opacity: .9; }
+          70%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -140px) scale(calc(var(--sx,1) * 1.08)) rotate(calc(var(--r0,0deg) + var(--spin,16deg))); opacity: .7; }
+          100% { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -240px) scale(calc(var(--sx,1) * 1.12)) rotate(calc(var(--r0,0deg) + var(--spin,22deg))); opacity: 0; }
+        }
+        .wisp {
+          position: absolute;
+          bottom: 0;
+          border-radius: 9999px;
+          background: radial-gradient(60% 80% at 50% 100%, rgba(199,76,76,0.95) 0%, rgba(199,76,76,0) 60%);
+          filter: blur(8px) contrast(170%) brightness(120%);
+          animation: wispRise var(--dur,8s) ease-in infinite;
+          animation-delay: var(--delay,0s);
+          will-change: transform, opacity;
+          pointer-events: none;
+          mix-blend-mode: multiply;
+        }
       `}</style>
 
       {/* Teapot removed per request */}
 
-      {/* Steam – ultra visible and across full width (brand red) */}
+      {/* Steam – animated wisps for clear motion (brand red) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]">
-        {/* contrast backdrop just behind steam to make it pop */}
-        <div className="absolute inset-x-0 bottom-0 h-56" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0) 70%)", filter: "blur(14px)" }} />
-        {/* base mist */}
-        <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(199,76,76,0.55) 0%, ${STEAM_FADE} 72%)`, filter: "blur(10px) contrast(160%) brightness(125%)" }} />
-        {/* plumes across width (very bright, less blur, persistent) */}
-        <div className="absolute bottom-0 left-[2%] w-28 h-120 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpA 7s ease-in-out infinite .05s" }} />
-        <div className="absolute bottom-0 left-[10%] w-36 h-128 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpB 7.8s ease-in-out infinite .15s" }} />
-        <div className="absolute bottom-0 left-[18%] w-30 h-118 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(9px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpC 8.6s ease-in-out infinite .25s" }} />
-        <div className="absolute bottom-0 left-[26%] w-34 h-130 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpA 9.4s ease-in-out infinite .35s" }} />
-        <div className="absolute bottom-0 left-[34%] w-30 h-118 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(9px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpB 10.2s ease-in-out infinite .45s" }} />
-        <div className="absolute bottom-0 left-[42%] w-36 h-132 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpC 11s ease-in-out infinite .55s" }} />
-        <div className="absolute bottom-0 left-[58%] w-36 h-132 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpA 11.4s ease-in-out infinite .65s" }} />
-        <div className="absolute bottom-0 left-[66%] w-30 h-118 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(9px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpB 10.6s ease-in-out infinite .75s" }} />
-        <div className="absolute bottom-0 left-[74%] w-34 h-130 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpC 9.8s ease-in-out infinite .85s" }} />
-        <div className="absolute bottom-0 left-[82%] w-30 h-118 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(9px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpA 9s ease-in-out infinite .95s" }} />
-        <div className="absolute bottom-0 left-[90%] w-36 h-128 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpB 8.2s ease-in-out infinite 1.05s" }} />
-        <div className="absolute bottom-0 left-[98%] w-28 h-120 -translate-x-1/2 rounded-full" style={{ background: `radial-gradient(50% 70% at 50% 100%, ${STEAM_SOLID} 0%, ${STEAM_FADE} 60%)`, filter: "blur(10px) contrast(180%) brightness(130%)", opacity: 1, animation: "steamUpC 7.4s ease-in-out infinite 1.15s" }} />
+        {/* slight contrast vignette */}
+        <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
+        {/* base red mist */}
+        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(199,76,76,0.45) 0%, ${STEAM_FADE} 70%)`, filter: "blur(10px) contrast(140%) brightness(120%)" }} />
+
+        {/* wisps across the width with varied timings/drifts */}
+        <div className="wisp" style={{ left: '4%',  width: '26px', height: '124px', '--drift': '24px',  '--sx': '.8',  '--dur': '6.6s', '--delay': '.1s', '--x0': '0px',  '--r0': '-6deg', '--spin': '18deg' }} />
+        <div className="wisp" style={{ left: '10%', width: '30px', height: '138px', '--drift': '-26px', '--sx': '.9',  '--dur': '7.2s', '--delay': '.3s', '--x0': '2px',  '--r0': '4deg',  '--spin': '16deg' }} />
+        <div className="wisp" style={{ left: '16%', width: '24px', height: '126px', '--drift': '22px',  '--sx': '.85', '--dur': '7.8s', '--delay': '.6s', '--x0': '-2px', '--r0': '2deg',  '--spin': '14deg' }} />
+        <div className="wisp" style={{ left: '22%', width: '32px', height: '142px', '--drift': '-28px','--sx': '1',   '--dur': '8.2s', '--delay': '.9s', '--x0': '0px',  '--r0': '-3deg', '--spin': '20deg' }} />
+        <div className="wisp" style={{ left: '30%', width: '28px', height: '136px', '--drift': '26px',  '--sx': '.9',  '--dur': '7.1s', '--delay': '1.2s','--x0': '1px',  '--r0': '5deg',  '--spin': '18deg' }} />
+        <div className="wisp" style={{ left: '38%', width: '26px', height: '128px', '--drift': '-22px','--sx': '.85', '--dur': '7.6s', '--delay': '1.4s','--x0': '-1px','--r0': '-4deg','--spin': '16deg' }} />
+        <div className="wisp" style={{ left: '62%', width: '26px', height: '128px', '--drift': '22px', '--sx': '.85', '--dur': '7.6s', '--delay': '.2s', '--x0': '0px', '--r0': '3deg', '--spin': '16deg' }} />
+        <div className="wisp" style={{ left: '70%', width: '30px', height: '138px', '--drift': '-24px','--sx': '.9',  '--dur': '7.9s', '--delay': '.5s', '--x0': '2px', '--r0': '-5deg','--spin': '18deg' }} />
+        <div className="wisp" style={{ left: '76%', width: '24px', height: '126px', '--drift': '26px', '--sx': '.85','--dur': '7.3s', '--delay': '.8s', '--x0': '-2px','--r0': '2deg', '--spin': '14deg' }} />
+        <div className="wisp" style={{ left: '82%', width: '32px', height: '142px', '--drift': '-28px','--sx': '1',   '--dur': '8.4s', '--delay': '1.1s','--x0': '0px', '--r0': '4deg', '--spin': '20deg' }} />
+        <div className="wisp" style={{ left: '90%', width: '28px', height: '136px', '--drift': '24px', '--sx': '.9', '--dur': '7.2s', '--delay': '1.3s','--x0': '1px', '--r0': '-3deg','--spin': '18deg' }} />
+        <div className="wisp" style={{ left: '96%', width: '24px', height: '126px', '--drift': '-22px','--sx': '.85','--dur': '7.5s', '--delay': '1.6s','--x0': '-1px','--r0': '6deg', '--spin': '16deg' }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
