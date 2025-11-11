@@ -108,7 +108,7 @@ function TopBar({ onOpenCart, cartCount }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-6">
         <div className="flex items-center gap-3"><LogoWordmark /></div>
         <nav className="ml-auto hidden md:flex items-center gap-6 text-sm">
-          <a href="#story" className="hover:opacity-80">Story</a>
+          <a href="/story" className="hover:opacity-80">Story</a>
           <a href="#teas" className="hover:opacity-80">Teas</a>
           <a href="#ritual" className="hover:opacity-80">Ritual</a>
           <a href="#journal" className="hover:opacity-80">Journal</a>
@@ -270,7 +270,7 @@ function Hero({ onScrollToTeas }) {
           <button onClick={onScrollToTeas} className="px-4 py-2 rounded-xl text-white font-medium hover:opacity-90" style={{ background: COLORS.primary }}>
             Explore Teas
           </button>
-          <a href="#story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
+          <a href="/story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
             Our Story
           </a>
         </div>
@@ -279,52 +279,22 @@ function Hero({ onScrollToTeas }) {
   );
 }
 
-function Story() {
+function StoryTeaser() {
   return (
-    <section id="story" className="mt-10 grid gap-6 md:grid-cols-2">
-      <div className="rounded-2xl border border-black/5 bg-white p-6 shadow">
-        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Our Story</h2>
-        <p className="mt-2 text-neutral-700">
-          We met in Tokyo, in a small underground club at dawn. The music was fading, the lights were low, and the city outside was just beginning to wake.
-          That’s where I first spoke with Michiko.
-        </p>
-        <p className="mt-2 text-neutral-700">
-          She was born in Japan, to Chinese parents — two tea lineages carried quietly in one life.
-          From China: the mountains, the harvests, the leaves themselves.
-          From Japan: the stillness, the presence, the way tea is not performed but felt.
-        </p>
-        <p className="mt-2 text-neutral-700">
-          Later, in her apartment, she made tea the same way she moved through the world — gently.
-          No ceremony for show. No perfect teaware layout. No polished presentation.
-        </p>
-        <p className="mt-2 text-neutral-700">Just:</p>
-        <ul className="mt-1 list-disc pl-5 text-neutral-700 space-y-1">
-          <li>leaves chosen by hand,</li>
-          <li>water heated with attention rather than measurement,</li>
-          <li>cups passed without hurry,</li>
-          <li>and conversation that didn’t need to fill the silence.</li>
-        </ul>
-        <p className="mt-2 text-neutral-700">It felt like being welcomed, not served.</p>
-        <p className="mt-2 text-neutral-700">
-          Michiko already shared her teas in Japan, slowly, one person at a time. I asked if we could share them here — in Europe — without losing that warmth.
-          Not as a brand. Not as a trend. But as a way to make space for a slower, more human rhythm again.
-        </p>
-      </div>
-      <div className="rounded-2xl border border-black/5 bg-white p-6 shadow">
-        <h3 className="font-serif text-xl" style={{ color: COLORS.accent }}>What we believe</h3>
-        <p className="mt-2 text-neutral-700">
-          Real tea asks you to slow down enough to meet yourself again. To feel your own pace. To take one breath that isn’t rushed.
-          These teas do not demand attention — they offer it back to you.
-        </p>
-        <ul className="mt-2 list-disc pl-5 text-neutral-700 space-y-1">
-          <li>Whole leaves, not dust.</li>
-          <li>Places and hands you can name, not factories.</li>
-          <li>Flavors that open slowly, infusion by infusion.</li>
-          <li>Nothing added. Time and water do the work.</li>
-        </ul>
-        <p className="mt-2 text-neutral-700">
-          This is not something to consume quickly. It is something to return to — again and again.
-        </p>
+    <section className="mt-12">
+      <div className="rounded-2xl border border-black/5 bg-white p-6 shadow flex flex-col md:flex-row md:items-center gap-6">
+        <div className="flex-1">
+          <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Our Story</h2>
+          <p className="mt-2 text-neutral-700">
+            Born between Chinese tea lineages and Japanese stillness, we share real tea the way it’s felt — not performed.
+            Slow, human, and warm.
+          </p>
+        </div>
+        <div>
+          <a href="/story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
+            Read the full story
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -622,12 +592,10 @@ export default function App() {
     <CartProvider>
       <SiteLayout>
         <Hero onScrollToTeas={() => teasRef.current?.scrollIntoView({ behavior: "smooth" })} />
-        <Story />
-        <div ref={teasRef}>
-          <Teas onOpenDetail={onOpenDetail} />
-        </div>
+        <div ref={teasRef}><Teas onOpenDetail={onOpenDetail} /></div>
         <Ritual />
         <Journal />
+        <StoryTeaser />
         <Contact />
 
         <ProductModal open={modalOpen} teaId={activeTeaId} onClose={() => setModalOpen(false)} />
