@@ -148,6 +148,31 @@ function LogoWordmark() {
 }
 
 function Hero({ onScrollToTeas }) {
+  const [plumes, setPlumes] = React.useState([]);
+  React.useEffect(() => {
+    const rand = (min, max) => Math.random() * (max - min) + min;
+    const count = 7;
+    const baseLefts = Array.from({ length: count }, (_, i) => 6 + (88 / (count - 1)) * i);
+    const generated = baseLefts.map((left) => {
+      const jitter = rand(-3, 3);
+      const width = rand(210, 260);
+      const height = rand(250, 290);
+      const duration = rand(11, 13.5);
+      // Negative delay desynchronizes first cycle so they don't start/stop together
+      const delay = -rand(0, duration);
+      return {
+        left: Math.max(2, Math.min(96, left + jitter)),
+        width,
+        height,
+        drift: rand(-28, 28),
+        scale: rand(0.95, 1.08),
+        rotate: rand(-2, 2),
+        duration,
+        delay
+      };
+    });
+    setPlumes(generated);
+  }, []);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
@@ -247,14 +272,24 @@ function Hero({ onScrollToTeas }) {
         {/* base white mist with noise (lighter to avoid initial blotches) */}
         <div className="absolute inset-x-0 bottom-0 h-36" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(10px) contrast(120%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
 
-        {/* broad cloud plumes across the width with staggered starts */}
-        <div className="plume" style={{ left: '8%',  width: '220px', height: '260px', '--px': '0px', '--pdrift': '28px', '--ps': '1',   '--pr': '-2deg', '--pdur': '12s',  '--pdelay': '.8s' }} />
-        <div className="plume" style={{ left: '22%', width: '240px', height: '270px', '--px': '0px', '--pdrift': '-24px','--ps': '1.05','--pr': '1deg',  '--pdur': '11.5s','--pdelay': '1.4s' }} />
-        <div className="plume" style={{ left: '35%', width: '230px', height: '260px', '--px': '0px', '--pdrift': '22px', '--ps': '1',   '--pr': '0deg',  '--pdur': '12.2s','--pdelay': '.2s' }} />
-        <div className="plume" style={{ left: '50%', width: '250px', height: '280px', '--px': '0px', '--pdrift': '-26px','--ps': '1.06','--pr': '-1deg','--pdur': '13s',  '--pdelay': '1.0s' }} />
-        <div className="plume" style={{ left: '64%', width: '220px', height: '260px', '--px': '0px', '--pdrift': '20px', '--ps': '1',   '--pr': '2deg',  '--pdur': '11.8s','--pdelay': '.5s' }} />
-        <div className="plume" style={{ left: '78%', width: '240px', height: '270px', '--px': '0px', '--pdrift': '-22px','--ps': '1.03','--pr': '1deg',  '--pdur': '12.6s','--pdelay': '1.7s' }} />
-        <div className="plume" style={{ left: '92%', width: '230px', height: '265px', '--px': '0px', '--pdrift': '24px', '--ps': '1',   '--pr': '-1deg','--pdur': '11.9s','--pdelay': '.1s' }} />
+        {/* broad cloud plumes across the width with randomized offsets per load */}
+        {plumes.map((p, i) => (
+          <div
+            key={i}
+            className="plume"
+            style={{
+              left: `${p.left}%`,
+              width: `${p.width}px`,
+              height: `${p.height}px`,
+              '--px': '0px',
+              '--pdrift': `${p.drift}px`,
+              '--ps': p.scale,
+              '--pr': `${p.rotate}deg`,
+              '--pdur': `${p.duration}s`,
+              '--pdelay': `${p.delay}s`
+            }}
+          />
+        ))}
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
