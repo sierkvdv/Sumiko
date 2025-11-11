@@ -142,21 +142,41 @@ function Hero({ onScrollToTeas }) {
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
+        /* Make steam more visible and add gentle sway */
         @keyframes steamRiseA { 0%{transform:translateY(24px) translateX(-8px) scale(1);opacity:0} 30%{opacity:.55} 100%{transform:translateY(-90px) translateX(-10px) scale(1.1);opacity:0} }
         @keyframes steamRiseB { 0%{transform:translateY(30px) translateX(6px) scale(1);opacity:0} 35%{opacity:.45} 100%{transform:translateY(-80px) translateX(10px) scale(1.08);opacity:0} }
         @keyframes steamRiseC { 0%{transform:translateY(20px) translateX(0px) scale(1);opacity:0} 35%{opacity:.5} 100%{transform:translateY(-95px) translateX(4px) scale(1.12);opacity:0} }
         @keyframes breathe { 0%,100%{opacity:.85} 50%{opacity:1} }
+        @keyframes sway { 0%,100%{ transform: translateX(-50%) rotate(-1deg);} 50%{ transform: translateX(-50%) rotate(1deg);} }
       `}</style>
 
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[28rem] h-80 overflow-visible opacity-95 z-[1]">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-72 rounded-full blur-[80px] bg-white/95" style={{ animation: "steamRiseA 6s ease-in-out infinite" }} />
-        <div className="absolute bottom-0 left-[47%] w-20 h-80 rounded-full blur-[90px] bg-white/90" style={{ animation: "steamRiseB 8s ease-in-out infinite" }} />
-        <div className="absolute bottom-0 left-[53%] w-16 h-64 rounded-full blur-[70px] bg-white/90" style={{ animation: "steamRiseC 10s ease-in-out infinite reverse" }} />
+      {/* Teapot silhouette (subtle) */}
+      <div className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 z-[1]" style={{ animation: "sway 9s ease-in-out infinite", opacity: 0.18 }} aria-hidden>
+        <svg width="360" height="180" viewBox="0 0 360 180" fill="none">
+          <defs>
+            <linearGradient id="potGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#000" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#000" stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+          {/* A minimal teapot outline */}
+          <path d="M75 120c0-40 45-60 105-60s105 20 105 60c0 25-35 40-105 40s-105-15-105-40z" fill="url(#potGrad)" />
+          <path d="M270 92c18-2 34 6 38 18-6 3-18 2-30-6" stroke="#000" strokeOpacity="0.25" strokeWidth="6" strokeLinecap="round" fill="none"/>
+          <path d="M115 70c8-8 28-18 65-18s57 10 65 18" stroke="#000" strokeOpacity="0.18" strokeWidth="8" strokeLinecap="round" fill="none"/>
+          <circle cx="180" cy="60" r="10" fill="#000" fillOpacity="0.2"/>
+        </svg>
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 160px rgba(0,0,0,0.10)" }} />
+      {/* Steam plumes above the teapot (higher z-index than silhouette) */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[32rem] h-80 overflow-visible z-[2]">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-24 h-72 rounded-full blur-[80px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.0))", animation: "steamRiseA 6s ease-in-out infinite" }} />
+        <div className="absolute bottom-4 left-[47%] w-20 h-80 rounded-full blur-[90px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0))", animation: "steamRiseB 8s ease-in-out infinite" }} />
+        <div className="absolute bottom-4 left-[53%] w-16 h-64 rounded-full blur-[70px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0))", animation: "steamRiseC 10s ease-in-out infinite reverse" }} />
+      </div>
 
-      <div className="max-w-3xl relative z-[2]">
+      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 200px rgba(0,0,0,0.12)" }} />
+
+      <div className="max-w-3xl relative z-[3]">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
           Tea as a pause.{" "}
           <span className="text-[color:var(--primary)]" style={{ color: COLORS.primary }}>
