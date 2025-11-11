@@ -158,24 +158,15 @@ function Hero({ onScrollToTeas }) {
         @keyframes steamUpC { 0%{ transform: translate(-45%, 25px) scale(0.9); opacity: 0; } 25%{opacity: .65} 100%{ transform: translate(-55%, -125px) scale(1.12); opacity: 0; } }
       `}</style>
 
-      {/* Teapot silhouette – cleaner line art */}
-      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 z-[1]" style={{ animation: "sway 9s ease-in-out infinite", opacity: 0.18 }} aria-hidden>
-        <svg width="420" height="180" viewBox="0 0 420 180" fill="none">
-          <g stroke={COLORS.primary} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.85">
-            <path d="M90 120c0-44 54-66 120-66s120 22 120 66" />
-            <path d="M330 102c22-4 40 8 42 20-10 4-24 0-36-10" />
-            <path d="M102 96c12-14 46-28 108-28s96 14 108 28" opacity="0.7" />
-            <path d="M210 56c16 0 28 8 32 18" opacity="0.6" />
-            <path d="M170 56c-10 4-18 10-22 18" opacity="0.6" />
-          </g>
-        </svg>
-      </div>
+      {/* Teapot removed per request */}
 
-      {/* Steam – high-contrast radial gradients with blur & blend */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 w-[34rem] h-80 overflow-visible z-[2]" style={{ transform: "translateX(-50%)" }}>
-        <div className="absolute bottom-8 left-1/2 w-28 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpA 7s ease-in-out infinite" }} />
-        <div className="absolute bottom-6 left-1/2 w-24 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(26px)", mixBlendMode: "screen", animation: "steamUpB 9s ease-in-out infinite" }} />
-        <div className="absolute bottom-6 left-1/2 w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpC 11s ease-in-out infinite" }} />
+      {/* Steam – stronger and more visible */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 w-[44rem] h-80 overflow-visible z-[2]" style={{ transform: "translateX(-50%)" }}>
+        <div className="absolute bottom-8 left-[40%] w-32 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpA 6.5s ease-in-out infinite" }} />
+        <div className="absolute bottom-7 left-[50%] w-28 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpB 8s ease-in-out infinite 0.3s" }} />
+        <div className="absolute bottom-7 left-[60%] w-24 h-70 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpC 9.5s ease-in-out infinite 0.6s" }} />
+        <div className="absolute bottom-6 left-[47%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpB 10.5s ease-in-out infinite 1s" }} />
+        <div className="absolute bottom-6 left-[53%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpA 11.5s ease-in-out infinite 1.4s" }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 200px rgba(0,0,0,0.12)" }} />
