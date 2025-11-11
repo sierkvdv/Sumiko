@@ -202,10 +202,11 @@ function Hero({ onScrollToTeas }) {
 
         /* Broad cloud plumes (so it looks like steam clouds instead of dots) */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 40px) scale(var(--ps,1)) rotate(var(--pr,0deg)); opacity: .85; }
-          35%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -60px)  scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
-          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -160px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -260px) scale(calc(var(--ps,1) * 1.14)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
+          0%   { transform: translate(var(--px,0), 120px) scale(calc(var(--ps,1) * .95)) rotate(var(--pr,0deg)); opacity: 0; }
+          12%  { opacity: .45; }
+          35%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -40px)  scale(calc(var(--ps,1) * 1.04)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
+          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -170px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -290px) scale(calc(var(--ps,1) * 1.14)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
         }
         .plume {
           position: absolute;
@@ -213,7 +214,8 @@ function Hero({ onScrollToTeas }) {
           border-radius: 60% 55% 50% 60% / 65% 60% 50% 55%;
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
-          animation: plumeRise var(--pdur,9.5s) ease-in infinite;
+          transform-origin: 50% 100%;
+          animation: plumeRise var(--pdur,11.5s) cubic-bezier(.25,.1,.25,1) infinite both;
           animation-delay: var(--pdelay,0s);
           will-change: transform, opacity;
           pointer-events: none;
