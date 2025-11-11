@@ -5,6 +5,14 @@ export default function StoryPage() {
   };
   return (
     <main className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mb-4 flex items-center justify-between">
+        <a href="/" className="text-sm underline hover:opacity-80" style={{ color: COLORS.primary }}>
+          ← Back to Home
+        </a>
+        <a href="/#teas" className="text-sm underline hover:opacity-80" style={{ color: COLORS.primary }}>
+          Explore Teas
+        </a>
+      </div>
       <h1 className="font-serif text-3xl" style={{ color: COLORS.primary }}>Our Story</h1>
 
       <section className="mt-6 space-y-4 text-neutral-800">
