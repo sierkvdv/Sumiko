@@ -10,9 +10,9 @@ const COLORS = {
   ink: "#2A2A2A"
 };
 
-// Brand-colored steam (accent red)
-const STEAM_SOLID = "rgba(199, 76, 76, 1)";   // #C74C4C
-const STEAM_FADE  = "rgba(199, 76, 76, 0)";
+// Neutral steam (white)
+const STEAM_SOLID = "rgba(255,255,255,1)";
+const STEAM_FADE  = "rgba(255,255,255,0)";
 
 const formatPrice = (cents) => `€ ${(cents / 100).toFixed(2)}`;
 
@@ -191,24 +191,38 @@ function Hero({ onScrollToTeas }) {
           position: absolute;
           bottom: 0;
           border-radius: 9999px;
-          background: radial-gradient(60% 80% at 50% 100%, rgba(199,76,76,0.95) 0%, rgba(199,76,76,0) 60%);
-          filter: blur(8px) contrast(170%) brightness(120%);
+          background: radial-gradient(60% 80% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 60%);
+          filter: url(#steamNoise) blur(7px) contrast(160%) brightness(120%);
           animation: wispRise var(--dur,8s) ease-in infinite;
           animation-delay: var(--delay,0s);
           will-change: transform, opacity;
           pointer-events: none;
-          mix-blend-mode: multiply;
+          mix-blend-mode: screen;
         }
       `}</style>
 
       {/* Teapot removed per request */}
 
-      {/* Steam – animated wisps for clear motion (brand red) */}
+      {/* SVG noise filter for realistic steam distortion */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden focusable="false">
+        <filter id="steamNoise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="3">
+            <animate attributeName="baseFrequency" dur="10s" values="0.012 0.018;0.02 0.03;0.012 0.018" repeatCount="indefinite" />
+            <animate attributeName="seed" dur="12s" values="3;20;40;60;80;3" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="28">
+            <animate attributeName="scale" dur="8s" values="22;30;22" repeatCount="indefinite" />
+          </feDisplacementMap>
+          <feGaussianBlur stdDeviation="0.5" />
+        </filter>
+      </svg>
+
+      {/* Steam – animated wisps for clear motion (white, with noise distortion) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]">
-        {/* slight contrast vignette */}
+        {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
-        {/* base red mist */}
-        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(199,76,76,0.45) 0%, ${STEAM_FADE} 70%)`, filter: "blur(10px) contrast(140%) brightness(120%)" }} />
+        {/* base white mist with noise */}
+        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.6) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(9px) contrast(140%) brightness(120%)", mixBlendMode: "screen" }} />
 
         {/* wisps across the width with varied timings/drifts */}
         <div className="wisp" style={{ left: '4%',  width: '26px', height: '124px', '--drift': '24px',  '--sx': '.8',  '--dur': '6.6s', '--delay': '.1s', '--x0': '0px',  '--r0': '-6deg', '--spin': '18deg' }} />
