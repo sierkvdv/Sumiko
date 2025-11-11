@@ -145,7 +145,7 @@ function LogoWordmark() {
 
 function Hero({ onScrollToTeas }) {
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#E8E0D5] p-8 md:p-12 shadow-lg">
+    <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
         /* Make steam more visible and add gentle sway */
         @keyframes steamRiseA { 0%{transform:translateY(24px) translateX(-8px) scale(1);opacity:0} 30%{opacity:.55} 100%{transform:translateY(-90px) translateX(-10px) scale(1.1);opacity:0} }
@@ -153,10 +153,28 @@ function Hero({ onScrollToTeas }) {
         @keyframes steamRiseC { 0%{transform:translateY(20px) translateX(0px) scale(1);opacity:0} 35%{opacity:.5} 100%{transform:translateY(-95px) translateX(4px) scale(1.12);opacity:0} }
         @keyframes breathe { 0%,100%{opacity:.85} 50%{opacity:1} }
         @keyframes sway { 0%,100%{ transform: translateX(-50%) rotate(-1deg);} 50%{ transform: translateX(-50%) rotate(1deg);} }
-        /* Stronger steam that stays visible */
-        @keyframes steamUpA { 0%{ transform: translate(-50%, 24px) scale(1); opacity: .95; } 50%{opacity: .9} 100%{ transform: translate(-50%, -180px) scale(1.18); opacity: .35; } }
-        @keyframes steamUpB { 0%{ transform: translate(-50%, 30px) scale(1); opacity: .92; } 50%{opacity: .88} 100%{ transform: translate(-50%, -170px) scale(1.15); opacity: .32; } }
-        @keyframes steamUpC { 0%{ transform: translate(-50%, 22px) scale(1); opacity: .9; } 50%{opacity: .86} 100%{ transform: translate(-50%, -160px) scale(1.12); opacity: .30; } }
+        /* Stronger steam with horizontal drift + persistent opacity */
+        @keyframes steamUpA { 
+          0%{ transform: translate(-50%, 28px) scale(1); opacity: .95; } 
+          25%{ transform: translate(-48%, -20px) scale(1.05); opacity: .95; }
+          50%{ transform: translate(-52%, -80px) scale(1.12); opacity: .9; }
+          75%{ transform: translate(-49%, -140px) scale(1.16); opacity: .75; }
+          100%{ transform: translate(-50%, -200px) scale(1.2); opacity: .6; } 
+        }
+        @keyframes steamUpB { 
+          0%{ transform: translate(-50%, 30px) scale(1); opacity: .94; } 
+          25%{ transform: translate(-52%, -10px) scale(1.04); opacity: .94; }
+          50%{ transform: translate(-48%, -70px) scale(1.1); opacity: .88; }
+          75%{ transform: translate(-51%, -130px) scale(1.15); opacity: .72; }
+          100%{ transform: translate(-50%, -190px) scale(1.18); opacity: .58; } 
+        }
+        @keyframes steamUpC { 
+          0%{ transform: translate(-50%, 24px) scale(1); opacity: .92; } 
+          25%{ transform: translate(-49%, -14px) scale(1.03); opacity: .92; }
+          50%{ transform: translate(-51%, -75px) scale(1.08); opacity: .86; }
+          75%{ transform: translate(-50%, -135px) scale(1.14); opacity: .7; }
+          100%{ transform: translate(-50%, -185px) scale(1.16); opacity: .55; } 
+        }
       `}</style>
 
       {/* Teapot removed per request */}
@@ -178,7 +196,7 @@ function Hero({ onScrollToTeas }) {
         <div className="absolute bottom-0 left-[95%] w-28 h-106 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", animation: "steamUpA 12.5s ease-in-out infinite 1s" }} />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 260px rgba(0,0,0,0.18)" }} />
+      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
 
       <div className="max-w-3xl relative z-[3]">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
