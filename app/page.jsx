@@ -102,15 +102,7 @@ function TopBar({ onOpenCart, cartCount }) {
   return (
     <header className="sticky top-0 z-40 backdrop-blur bg-[#F3EFE6]/70 border-b border-black/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-6">
-        <div className="flex items-center gap-3">
-          <Enso />
-          <div>
-            <div className="font-serif text-xl tracking-wide" style={{ color: COLORS.primary }}>
-              SUMIKO
-            </div>
-            <div className="text-xs text-neutral-600">Let the leaves speak</div>
-          </div>
-        </div>
+        <div className="flex items-center gap-3"><LogoWordmark /></div>
         <nav className="ml-auto hidden md:flex items-center gap-6 text-sm">
           <a href="#story" className="hover:opacity-80">Story</a>
           <a href="#teas" className="hover:opacity-80">Teas</a>
@@ -138,6 +130,19 @@ function Enso() {
   );
 }
 
+function LogoWordmark() {
+  return (
+    <svg width="240" height="64" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" aria-label="Sumiko">
+      <g>
+        <path d="M53 74c12-10 20-25 18-38-2-13-13-19-23-16-10 3-15 14-13 24 2 10 9 21 18 30z" stroke={COLORS.primary} strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M50 65c-4-8-6-15-5-21 1-6 5-10 9-11" stroke={COLORS.primary} strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+      </g>
+      <text x="95" y="42" style={{ fontFamily: "Georgia, serif", fontSize: 34, letterSpacing: "1.5px", fill: COLORS.primary }}>SUMIKO</text>
+      <text x="95" y="60" style={{ fontFamily: "Georgia, serif", fontSize: 12, fill: "#6B6258" }}>Let the leaves speak</text>
+    </svg>
+  );
+}
+
 function Hero({ onScrollToTeas }) {
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
@@ -148,30 +153,29 @@ function Hero({ onScrollToTeas }) {
         @keyframes steamRiseC { 0%{transform:translateY(20px) translateX(0px) scale(1);opacity:0} 35%{opacity:.5} 100%{transform:translateY(-95px) translateX(4px) scale(1.12);opacity:0} }
         @keyframes breathe { 0%,100%{opacity:.85} 50%{opacity:1} }
         @keyframes sway { 0%,100%{ transform: translateX(-50%) rotate(-1deg);} 50%{ transform: translateX(-50%) rotate(1deg);} }
+        @keyframes steamUpA { 0%{ transform: translate(-50%, 20px) scale(0.9); opacity: 0; } 20%{opacity: .7} 100%{ transform: translate(-50%, -140px) scale(1.15); opacity: 0; } }
+        @keyframes steamUpB { 0%{ transform: translate(-55%, 30px) scale(0.9); opacity: 0; } 25%{opacity: .65} 100%{ transform: translate(-45%, -130px) scale(1.12); opacity: 0; } }
+        @keyframes steamUpC { 0%{ transform: translate(-45%, 25px) scale(0.9); opacity: 0; } 25%{opacity: .65} 100%{ transform: translate(-55%, -125px) scale(1.12); opacity: 0; } }
       `}</style>
 
-      {/* Teapot silhouette (subtle) */}
-      <div className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 z-[1]" style={{ animation: "sway 9s ease-in-out infinite", opacity: 0.18 }} aria-hidden>
-        <svg width="360" height="180" viewBox="0 0 360 180" fill="none">
-          <defs>
-            <linearGradient id="potGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#000" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#000" stopOpacity="0.05" />
-            </linearGradient>
-          </defs>
-          {/* A minimal teapot outline */}
-          <path d="M75 120c0-40 45-60 105-60s105 20 105 60c0 25-35 40-105 40s-105-15-105-40z" fill="url(#potGrad)" />
-          <path d="M270 92c18-2 34 6 38 18-6 3-18 2-30-6" stroke="#000" strokeOpacity="0.25" strokeWidth="6" strokeLinecap="round" fill="none"/>
-          <path d="M115 70c8-8 28-18 65-18s57 10 65 18" stroke="#000" strokeOpacity="0.18" strokeWidth="8" strokeLinecap="round" fill="none"/>
-          <circle cx="180" cy="60" r="10" fill="#000" fillOpacity="0.2"/>
+      {/* Teapot silhouette – cleaner line art */}
+      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 z-[1]" style={{ animation: "sway 9s ease-in-out infinite", opacity: 0.18 }} aria-hidden>
+        <svg width="420" height="180" viewBox="0 0 420 180" fill="none">
+          <g stroke={COLORS.primary} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.85">
+            <path d="M90 120c0-44 54-66 120-66s120 22 120 66" />
+            <path d="M330 102c22-4 40 8 42 20-10 4-24 0-36-10" />
+            <path d="M102 96c12-14 46-28 108-28s96 14 108 28" opacity="0.7" />
+            <path d="M210 56c16 0 28 8 32 18" opacity="0.6" />
+            <path d="M170 56c-10 4-18 10-22 18" opacity="0.6" />
+          </g>
         </svg>
       </div>
 
-      {/* Steam plumes above the teapot (higher z-index than silhouette) */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[32rem] h-80 overflow-visible z-[2]">
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-24 h-72 rounded-full blur-[80px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.0))", animation: "steamRiseA 6s ease-in-out infinite" }} />
-        <div className="absolute bottom-4 left-[47%] w-20 h-80 rounded-full blur-[90px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0))", animation: "steamRiseB 8s ease-in-out infinite" }} />
-        <div className="absolute bottom-4 left-[53%] w-16 h-64 rounded-full blur-[70px]" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0))", animation: "steamRiseC 10s ease-in-out infinite reverse" }} />
+      {/* Steam – high-contrast radial gradients with blur & blend */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 w-[34rem] h-80 overflow-visible z-[2]" style={{ transform: "translateX(-50%)" }}>
+        <div className="absolute bottom-8 left-1/2 w-28 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpA 7s ease-in-out infinite" }} />
+        <div className="absolute bottom-6 left-1/2 w-24 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(26px)", mixBlendMode: "screen", animation: "steamUpB 9s ease-in-out infinite" }} />
+        <div className="absolute bottom-6 left-1/2 w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpC 11s ease-in-out infinite" }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 200px rgba(0,0,0,0.12)" }} />
