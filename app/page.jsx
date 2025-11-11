@@ -153,28 +153,29 @@ function Hero({ onScrollToTeas }) {
         @keyframes steamRiseC { 0%{transform:translateY(20px) translateX(0px) scale(1);opacity:0} 35%{opacity:.5} 100%{transform:translateY(-95px) translateX(4px) scale(1.12);opacity:0} }
         @keyframes breathe { 0%,100%{opacity:.85} 50%{opacity:1} }
         @keyframes sway { 0%,100%{ transform: translateX(-50%) rotate(-1deg);} 50%{ transform: translateX(-50%) rotate(1deg);} }
-        @keyframes steamUpA { 0%{ transform: translate(-50%, 20px) scale(0.9); opacity: 0; } 20%{opacity: .7} 100%{ transform: translate(-50%, -140px) scale(1.15); opacity: 0; } }
-        @keyframes steamUpB { 0%{ transform: translate(-55%, 30px) scale(0.9); opacity: 0; } 25%{opacity: .65} 100%{ transform: translate(-45%, -130px) scale(1.12); opacity: 0; } }
-        @keyframes steamUpC { 0%{ transform: translate(-45%, 25px) scale(0.9); opacity: 0; } 25%{opacity: .65} 100%{ transform: translate(-55%, -125px) scale(1.12); opacity: 0; } }
+        /* Stronger steam that stays visible */
+        @keyframes steamUpA { 0%{ transform: translate(-50%, 24px) scale(1); opacity: .95; } 50%{opacity: .9} 100%{ transform: translate(-50%, -180px) scale(1.18); opacity: .35; } }
+        @keyframes steamUpB { 0%{ transform: translate(-50%, 30px) scale(1); opacity: .92; } 50%{opacity: .88} 100%{ transform: translate(-50%, -170px) scale(1.15); opacity: .32; } }
+        @keyframes steamUpC { 0%{ transform: translate(-50%, 22px) scale(1); opacity: .9; } 50%{opacity: .86} 100%{ transform: translate(-50%, -160px) scale(1.12); opacity: .30; } }
       `}</style>
 
       {/* Teapot removed per request */}
 
       {/* Steam – stronger and across full width */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-80 z-[2]">
-        {/* base soft mist */}
-        <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)" }} />
+        {/* base soft mist (much stronger) */}
+        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 72%)", filter: "blur(14px)" }} />
         {/* plumes across width */}
-        <div className="absolute bottom-0 left-[10%] w-24 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpA 7s ease-in-out infinite" }} />
-        <div className="absolute bottom-0 left-[20%] w-24 h-68 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpB 8s ease-in-out infinite .2s" }} />
-        <div className="absolute bottom-0 left-[30%] w-28 h-80 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpC 9s ease-in-out infinite .4s" }} />
-        <div className="absolute bottom-0 left-[40%] w-24 h-74 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpA 10s ease-in-out infinite .6s" }} />
-        <div className="absolute bottom-0 left-[50%] w-28 h-84 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(22px)", mixBlendMode: "screen", animation: "steamUpB 8.5s ease-in-out infinite .8s" }} />
-        <div className="absolute bottom-0 left-[60%] w-24 h-72 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpC 9.5s ease-in-out infinite 1s" }} />
-        <div className="absolute bottom-0 left-[70%] w-26 h-78 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0) 70%)", filter: "blur(20px)", mixBlendMode: "screen", animation: "steamUpA 11s ease-in-out infinite 1.2s" }} />
-        <div className="absolute bottom-0 left-[80%] w-22 h-70 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpB 10.5s ease-in-out infinite 1.4s" }} />
-        <div className="absolute bottom-0 left-[90%] w-24 h-76 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", mixBlendMode: "screen", animation: "steamUpC 12s ease-in-out infinite 1.6s" }} />
-        <div className="absolute bottom-0 left-[5%] w-20 h-64 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", mixBlendMode: "screen", animation: "steamUpA 9s ease-in-out infinite .1s" }} />
+        <div className="absolute bottom-0 left-[5%] w-28 h-96 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpA 7.5s ease-in-out infinite .1s" }} />
+        <div className="absolute bottom-0 left-[15%] w-32 h-104 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpB 8.5s ease-in-out infinite .2s" }} />
+        <div className="absolute bottom-0 left-[25%] w-28 h-92 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(17px)", animation: "steamUpC 9s ease-in-out infinite .3s" }} />
+        <div className="absolute bottom-0 left-[35%] w-30 h-100 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpA 9.5s ease-in-out infinite .4s" }} />
+        <div className="absolute bottom-0 left-[45%] w-28 h-96 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpB 10s ease-in-out infinite .5s" }} />
+        <div className="absolute bottom-0 left-[55%] w-32 h-104 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(19px)", animation: "steamUpC 10.5s ease-in-out infinite .6s" }} />
+        <div className="absolute bottom-0 left-[65%] w-28 h-92 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(17px)", animation: "steamUpA 11s ease-in-out infinite .7s" }} />
+        <div className="absolute bottom-0 left-[75%] w-30 h-98 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpB 11.5s ease-in-out infinite .8s" }} />
+        <div className="absolute bottom-0 left-[85%] w-28 h-96 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%)", filter: "blur(18px)", animation: "steamUpC 12s ease-in-out infinite .9s" }} />
+        <div className="absolute bottom-0 left-[95%] w-24 h-90 -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(50% 70% at 50% 100%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0) 70%)", filter: "blur(16px)", animation: "steamUpA 12.5s ease-in-out infinite 1s" }} />
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 200px rgba(0,0,0,0.12)" }} />
