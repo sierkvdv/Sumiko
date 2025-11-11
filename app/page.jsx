@@ -182,7 +182,7 @@ function Hero({ onScrollToTeas }) {
 
         /* New: organic wisps that rise, drift, rotate, and fade */
         @keyframes wispRise {
-          0%   { transform: translate(var(--x0,0), 24px) scale(var(--sx,1)) rotate(var(--r0,0deg)); opacity: .98; }
+          0%   { transform: translate(var(--x0,0), 36px) scale(var(--sx,1)) rotate(var(--r0,0deg)); opacity: .98; }
           35%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -60px) scale(calc(var(--sx,1) * 1.05)) rotate(calc(var(--r0,0deg) + var(--spin,10deg))); opacity: .9; }
           70%  { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -140px) scale(calc(var(--sx,1) * 1.08)) rotate(calc(var(--r0,0deg) + var(--spin,16deg))); opacity: .7; }
           100% { transform: translate(calc(var(--x0,0) + var(--drift,30px)), -240px) scale(calc(var(--sx,1) * 1.12)) rotate(calc(var(--r0,0deg) + var(--spin,22deg))); opacity: 0; }
@@ -192,7 +192,7 @@ function Hero({ onScrollToTeas }) {
           bottom: 0;
           border-radius: 9999px;
           background: radial-gradient(60% 80% at 50% 100%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 60%);
-          filter: url(#steamNoise) blur(7px) contrast(160%) brightness(120%);
+          filter: url(#steamNoise) blur(6px) contrast(140%) brightness(115%);
           animation: wispRise var(--dur,8s) ease-in infinite;
           animation-delay: var(--delay,0s);
           will-change: transform, opacity;
@@ -206,23 +206,23 @@ function Hero({ onScrollToTeas }) {
       {/* SVG noise filter for realistic steam distortion */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden focusable="false">
         <filter id="steamNoise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="3">
-            <animate attributeName="baseFrequency" dur="10s" values="0.012 0.018;0.02 0.03;0.012 0.018" repeatCount="indefinite" />
-            <animate attributeName="seed" dur="12s" values="3;20;40;60;80;3" repeatCount="indefinite" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3">
+            <animate attributeName="baseFrequency" dur="20s" values="0.008 0.012;0.012 0.018;0.008 0.012" repeatCount="indefinite" />
+            <animate attributeName="seed" dur="24s" values="3;20;40;60;80;3" repeatCount="indefinite" />
           </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" scale="28">
-            <animate attributeName="scale" dur="8s" values="22;30;22" repeatCount="indefinite" />
+          <feDisplacementMap in="SourceGraphic" scale="18">
+            <animate attributeName="scale" dur="18s" values="14;20;14" repeatCount="indefinite" />
           </feDisplacementMap>
           <feGaussianBlur stdDeviation="0.5" />
         </filter>
       </svg>
 
       {/* Steam – animated wisps for clear motion (white, with noise distortion) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
         {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
         {/* base white mist with noise */}
-        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.6) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(9px) contrast(140%) brightness(120%)", mixBlendMode: "screen" }} />
+        <div className="absolute inset-x-0 bottom-0 h-44" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.55) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(8px) contrast(130%) brightness(118%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
 
         {/* wisps across the width with varied timings/drifts */}
         <div className="wisp" style={{ left: '4%',  width: '26px', height: '124px', '--drift': '24px',  '--sx': '.8',  '--dur': '6.6s', '--delay': '.1s', '--x0': '0px',  '--r0': '-6deg', '--spin': '18deg' }} />
