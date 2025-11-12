@@ -324,7 +324,7 @@ function StoryTeaser() {
         <div className="flex-1">
           <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Our Story</h2>
           <p className="mt-2 text-neutral-700">
-            Born between Chinese tea lineages and Japanese stillness, we share real tea the way it’s felt — not performed.
+            Born between Chinese tea lineages and Japanese stillness, Sumiko shares real tea the way it’s felt — not performed.
             Slow, human, and warm.
           </p>
         </div>
