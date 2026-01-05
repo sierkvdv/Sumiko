@@ -149,6 +149,16 @@ function LogoWordmark() {
 
 function Hero({ onScrollToTeas }) {
   const [plumes, setPlumes] = React.useState([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
+  const videoRef = React.useRef(null);
+  
+  const videos = [
+    '/videos/Sumiko_Hero_001.mp4',
+    '/videos/Sumiko_Hero_002.mp4',
+    '/videos/Sumiko_Hero_003.mp4',
+    '/videos/Sumiko_Hero_004.mp4'
+  ];
+
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
     const count = 7;
@@ -173,8 +183,48 @@ function Hero({ onScrollToTeas }) {
     });
     setPlumes(generated);
   }, []);
+
+  // Handle video end event to play next video
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnded = () => {
+      setCurrentVideoIndex((prev) => {
+        const next = (prev + 1) % videos.length;
+        return next;
+      });
+    };
+
+    video.addEventListener('ended', handleEnded);
+    return () => {
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, [currentVideoIndex, videos.length]);
+
+  // Update video source when index changes
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.load();
+    video.play().catch(() => {
+      // Autoplay might fail, that's okay
+    });
+  }, [currentVideoIndex]);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
+      {/* Video background - plays sequentially */}
+      <video
+        ref={videoRef}
+        src={videos[currentVideoIndex]}
+        className="absolute inset-0 w-full h-full object-cover z-[1]"
+        muted
+        playsInline
+        autoPlay
+      />
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/20 z-[1]" />
+      
       <style>{`
         /* Make steam more visible and add gentle sway */
         @keyframes steamRiseA { 0%{transform:translateY(24px) translateX(-8px) scale(1);opacity:0} 30%{opacity:.55} 100%{transform:translateY(-90px) translateX(-10px) scale(1.1);opacity:0} }
@@ -292,7 +342,7 @@ function Hero({ onScrollToTeas }) {
         ))}
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
+      <div className="pointer-events-none absolute inset-0 z-[1]" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
 
       <div className="max-w-3xl relative z-[3]">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
