@@ -161,22 +161,25 @@ function Hero({ onScrollToTeas }) {
 
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
-    const count = 7;
-    const baseLefts = Array.from({ length: count }, (_, i) => 6 + (88 / (count - 1)) * i);
-    const generated = baseLefts.map((left) => {
-      const jitter = rand(-3, 3);
-      const width = rand(210, 260);
-      const height = rand(250, 290);
-      const duration = rand(11, 13.5);
-      // Negative delay desynchronizes first cycle so they don't start/stop together
-      const delay = -rand(0, duration);
+    // More plumes for constant coverage
+    const count = 10;
+    const baseLefts = Array.from({ length: count }, (_, i) => 4 + (92 / (count - 1)) * i);
+    const generated = baseLefts.map((left, i) => {
+      const jitter = rand(-4, 4);
+      const width = rand(200, 280);
+      const height = rand(240, 320);
+      // Shorter duration for more frequent cycles, but with overlap
+      const duration = rand(9, 12);
+      // Stagger delays more evenly to ensure constant coverage
+      const baseDelay = -(duration / count) * i;
+      const delay = baseDelay + rand(-1, 1);
       return {
-        left: Math.max(2, Math.min(96, left + jitter)),
+        left: Math.max(1, Math.min(98, left + jitter)),
         width,
         height,
-        drift: rand(-28, 28),
-        scale: rand(0.95, 1.08),
-        rotate: rand(-2, 2),
+        drift: rand(-30, 30),
+        scale: rand(0.92, 1.1),
+        rotate: rand(-3, 3),
         duration,
         delay
       };
@@ -276,13 +279,14 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
         }
 
-        /* Broad cloud plumes (so it looks like steam clouds instead of dots) */
+        /* Broad cloud plumes - constant coverage with smoother transitions */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 120px) scale(calc(var(--ps,1) * .95)) rotate(var(--pr,0deg)); opacity: 0; }
-          20%  { transform: translate(var(--px,0), 40px)  scale(calc(var(--ps,1) * .98)) rotate(var(--pr,0deg));  opacity: .45; }
-          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -90px)  scale(calc(var(--ps,1) * 1.05)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
-          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -230px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
+          0%   { transform: translate(var(--px,0), 120px) scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg)); opacity: .15; }
+          15%  { transform: translate(var(--px,0), 50px)  scale(calc(var(--ps,1) * .98)) rotate(var(--pr,0deg));  opacity: .5; }
+          40%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -60px)  scale(calc(var(--ps,1) * 1.04)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
+          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -180px) scale(calc(var(--ps,1) * 1.08)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
+          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -250px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
         }
         .plume {
           position: absolute;
@@ -291,12 +295,11 @@ function Hero({ onScrollToTeas }) {
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
           transform-origin: 50% 100%;
-          animation: plumeRise var(--pdur,11.5s) linear infinite both;
+          animation: plumeRise var(--pdur,10.5s) linear infinite both;
           animation-delay: var(--pdelay,0s);
           will-change: transform, opacity;
           pointer-events: none;
           mix-blend-mode: screen;
-          opacity: 0;
         }
       `}</style>
 
@@ -319,8 +322,8 @@ function Hero({ onScrollToTeas }) {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2] overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
         {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
-        {/* base white mist with noise (lighter to avoid initial blotches) */}
-        <div className="absolute inset-x-0 bottom-0 h-36" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(10px) contrast(120%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
+        {/* base white mist with noise - stronger for constant coverage */}
+        <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.25) 40%, ${STEAM_FADE} 75%)`, filter: "url(#steamNoise) blur(10px) contrast(125%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.5) 25px, rgba(0,0,0,1) 65px)" }} />
 
         {/* broad cloud plumes across the width with randomized offsets per load */}
         {plumes.map((p, i) => (
