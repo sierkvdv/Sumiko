@@ -161,25 +161,26 @@ function Hero({ onScrollToTeas }) {
 
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
-    // More plumes for constant coverage
-    const count = 10;
-    const baseLefts = Array.from({ length: count }, (_, i) => 4 + (92 / (count - 1)) * i);
-    const generated = baseLefts.map((left, i) => {
-      const jitter = rand(-4, 4);
-      const width = rand(200, 280);
-      const height = rand(240, 320);
-      // Shorter duration for more frequent cycles, but with overlap
-      const duration = rand(9, 12);
-      // Stagger delays more evenly to ensure constant coverage
-      const baseDelay = -(duration / count) * i;
-      const delay = baseDelay + rand(-1, 1);
+    // More plumes for constant coverage - completely random positions
+    const count = 12;
+    const generated = Array.from({ length: count }, (_, i) => {
+      // Random positions across the width, not evenly distributed
+      const left = rand(2, 96);
+      const width = rand(180, 300);
+      const height = rand(220, 340);
+      // Varied durations for more organic feel
+      const duration = rand(10, 15);
+      // Random delays to break the pattern
+      const delay = rand(-duration * 0.8, duration * 0.2);
+      // Random drift - can go left, right, or stay more vertical
+      const drift = rand(-50, 50);
       return {
-        left: Math.max(1, Math.min(98, left + jitter)),
+        left,
         width,
         height,
-        drift: rand(-30, 30),
-        scale: rand(0.92, 1.1),
-        rotate: rand(-3, 3),
+        drift,
+        scale: rand(0.88, 1.12),
+        rotate: rand(-5, 5),
         duration,
         delay
       };
@@ -279,15 +280,15 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
         }
 
-        /* Broad cloud plumes - constant coverage with smoother transitions, starting from bottom */
+        /* Broad cloud plumes - starts completely below view, random organic movement */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 0px) scale(calc(var(--ps,1) * .92)) rotate(var(--pr,0deg)); opacity: .2; }
-          10%  { transform: translate(var(--px,0), 20px)  scale(calc(var(--ps,1) * .94)) rotate(var(--pr,0deg));  opacity: .4; }
-          25%  { transform: translate(var(--px,0), 60px)  scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg));  opacity: .55; }
-          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -40px)  scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
-          75%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -160px) scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
-          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -240px) scale(calc(var(--ps,1) * 1.09))  rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
+          0%   { transform: translate(var(--px,0), 120px) scale(calc(var(--ps,1) * .80)) rotate(var(--pr,0deg)); opacity: .1; }
+          5%   { transform: translate(var(--px,0), 80px) scale(calc(var(--ps,1) * .84)) rotate(var(--pr,0deg)); opacity: .2; }
+          15%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.25), 20px) scale(calc(var(--ps,1) * .90)) rotate(calc(var(--pr,0deg) * 1.1)); opacity: .4; }
+          35%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.5), -60px) scale(calc(var(--ps,1) * .96)) rotate(calc(var(--pr,0deg) * 1.3)); opacity: .65; }
+          60%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.75), -170px) scale(calc(var(--ps,1) * 1.03)) rotate(calc(var(--pr,0deg) * 1.6)); opacity: .75; }
+          85%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -270px) scale(calc(var(--ps,1) * 1.08)) rotate(calc(var(--pr,0deg) * 1.9)); opacity: .55; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -360px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) * 2)); opacity: .1; }
         }
         .plume {
           position: absolute;
