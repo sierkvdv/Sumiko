@@ -1031,7 +1031,11 @@ function Footer() {
     <footer className="mt-16 py-10 border-t border-black/5">
       <div className="flex flex-col items-center gap-4 text-center text-sm text-neutral-600">
         <div className="flex items-center justify-center mb-2">
-          <LogoIcon />
+          <img 
+            src="/photos/Sumiko_Logo_txt_NO_BKGRND.png" 
+            alt="Sumiko" 
+            className="h-12 md:h-16 w-auto object-contain"
+          />
         </div>
         <p>© {new Date().getFullYear()} Sumiko — {t.heroSubtitle}</p>
       </div>
