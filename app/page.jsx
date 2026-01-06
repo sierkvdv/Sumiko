@@ -525,8 +525,11 @@ function LogoWordmark() {
       <img 
         src="/photos/Sumiko_Logo_txt_NO_BKGRND.png" 
         alt="Sumiko" 
-        className="h-10 md:h-12 w-auto object-contain"
-        style={{ maxWidth: '200px' }}
+        className="h-16 md:h-20 w-auto object-contain"
+        style={{ 
+          maxWidth: 'none',
+          imageRendering: 'crisp-edges'
+        }}
       />
     </a>
   );
