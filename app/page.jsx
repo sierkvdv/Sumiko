@@ -644,7 +644,7 @@ function Hero({ onScrollToTeas }) {
     return () => currentVideo.removeEventListener('ended', handleVideoEnd);
   }, [currentVideoIndex, activeVideo, videos.length]);
 
-  // Ensure current video plays and preload next - iOS compatible
+  // Ensure current video plays and preload next - iOS compatible with forced play
   React.useEffect(() => {
     const currentVideo = videoRefs[activeVideo].current;
     const nextIndex = (currentVideoIndex + 1) % videos.length;
@@ -654,14 +654,37 @@ function Hero({ onScrollToTeas }) {
       // Set iOS attributes
       currentVideo.setAttribute('playsinline', 'true');
       currentVideo.setAttribute('webkit-playsinline', 'true');
+      currentVideo.setAttribute('x5-playsinline', 'true');
+      currentVideo.setAttribute('x5-video-player-type', 'h5');
+      currentVideo.setAttribute('x5-video-player-fullscreen', 'false');
+      currentVideo.setAttribute('x5-video-orientation', 'portraint');
+      currentVideo.muted = true;
+      currentVideo.volume = 0;
+      
+      // Hide controls completely
+      currentVideo.controls = false;
+      
+      // Force play with multiple attempts for iOS
+      const attemptPlay = () => {
+        const playPromise = currentVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Try again after a short delay
+            setTimeout(() => {
+              currentVideo.play().catch(() => {});
+            }, 100);
+          });
+        }
+      };
       
       if (currentVideo.readyState >= 2) {
-        currentVideo.play().catch(() => {});
+        attemptPlay();
       } else {
         const playWhenReady = () => {
-          currentVideo.play().catch(() => {});
+          attemptPlay();
         };
         currentVideo.addEventListener('canplaythrough', playWhenReady, { once: true });
+        currentVideo.addEventListener('loadeddata', playWhenReady, { once: true });
       }
     }
 
@@ -669,6 +692,9 @@ function Hero({ onScrollToTeas }) {
     if (nextVideo) {
       nextVideo.setAttribute('playsinline', 'true');
       nextVideo.setAttribute('webkit-playsinline', 'true');
+      nextVideo.setAttribute('x5-playsinline', 'true');
+      nextVideo.muted = true;
+      nextVideo.controls = false;
       nextVideo.load();
     }
   }, [currentVideoIndex, activeVideo]);
@@ -750,11 +776,35 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
           opacity: 0;
         }
-        /* Hide video controls on iOS */
+        /* Hide video controls on iOS - comprehensive */
         video::-webkit-media-controls {
           display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
         }
         video::-webkit-media-controls-enclosure {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+        }
+        video::-webkit-media-controls-panel {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+        }
+        video::-webkit-media-controls-play-button {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          -webkit-appearance: none !important;
+        }
+        video::-webkit-media-controls-start-playback-button {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          -webkit-appearance: none !important;
+        }
+        video[controls]::-webkit-media-controls {
           display: none !important;
         }
       `}</style>
@@ -777,8 +827,15 @@ function Hero({ onScrollToTeas }) {
               autoPlay
               preload="auto"
               controls={false}
+              controlsList="nodownload nofullscreen noplaybackrate"
               disablePictureInPicture
               disableRemotePlayback
+              webkit-playsinline="true"
+              x5-playsinline="true"
+              style={{ 
+                pointerEvents: 'none',
+                WebkitAppearance: 'none'
+              }}
             >
               <source src={videos[videoIndex]} type="video/mp4" />
             </video>
