@@ -132,13 +132,12 @@ function SiteLayout({ children }) {
         controls={false}
         disablePictureInPicture
         disableRemotePlayback
-        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}
       >
         <source src={backgroundVideo} type="video/mp4" />
       </video>
       
-      {/* Semi-transparent overlay for readability */}
-      <div className="fixed inset-0 bg-[#DDD6CE]/85 z-0" />
+      {/* Semi-transparent overlay for readability - lighter so video is visible */}
+      <div className="fixed inset-0 bg-[#DDD6CE]/50 z-[1]" />
       
       {/* Content */}
       <div className="relative z-10">
