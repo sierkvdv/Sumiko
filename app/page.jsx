@@ -644,7 +644,7 @@ function Hero({ onScrollToTeas }) {
     return () => currentVideo.removeEventListener('ended', handleVideoEnd);
   }, [currentVideoIndex, activeVideo, videos.length]);
 
-  // Ensure current video plays and preload next - iOS compatible with forced play
+  // Ensure current video plays and preload next - iOS compatible with user interaction
   React.useEffect(() => {
     const currentVideo = videoRefs[activeVideo].current;
     const nextIndex = (currentVideoIndex + 1) % videos.length;
@@ -655,40 +655,36 @@ function Hero({ onScrollToTeas }) {
       currentVideo.setAttribute('playsinline', 'true');
       currentVideo.setAttribute('webkit-playsinline', 'true');
       currentVideo.setAttribute('x5-playsinline', 'true');
-      currentVideo.setAttribute('x5-video-player-type', 'h5');
-      currentVideo.setAttribute('x5-video-player-fullscreen', 'false');
-      currentVideo.setAttribute('x5-video-orientation', 'portraint');
       currentVideo.muted = true;
       currentVideo.volume = 0;
-      
-      // Hide controls completely
       currentVideo.controls = false;
       
-      // Force play with multiple attempts for iOS
+      // Force play - iOS requires user interaction, so try on first user interaction
       const attemptPlay = () => {
-        const playPromise = currentVideo.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Try again after a short delay
-            setTimeout(() => {
-              currentVideo.play().catch(() => {});
-            }, 100);
-          });
+        if (currentVideo.paused) {
+          currentVideo.play().catch(() => {});
         }
       };
       
+      // Try immediately if ready
       if (currentVideo.readyState >= 2) {
         attemptPlay();
       } else {
-        const playWhenReady = () => {
-          attemptPlay();
-        };
-        currentVideo.addEventListener('canplaythrough', playWhenReady, { once: true });
-        currentVideo.addEventListener('loadeddata', playWhenReady, { once: true });
+        currentVideo.addEventListener('canplaythrough', attemptPlay, { once: true });
+        currentVideo.addEventListener('loadeddata', attemptPlay, { once: true });
       }
+      
+      // Also try on any user interaction (like background video does)
+      const tryPlayOnInteraction = () => {
+        attemptPlay();
+        document.removeEventListener('touchstart', tryPlayOnInteraction);
+        document.removeEventListener('click', tryPlayOnInteraction);
+      };
+      document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+      document.addEventListener('click', tryPlayOnInteraction, { once: true });
     }
 
-    // Preload next video with iOS attributes
+    // Preload next video
     if (nextVideo) {
       nextVideo.setAttribute('playsinline', 'true');
       nextVideo.setAttribute('webkit-playsinline', 'true');
