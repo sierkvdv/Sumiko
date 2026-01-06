@@ -516,26 +516,29 @@ function TopBar({ onOpenCart, cartCount }) {
 }
 
 function Enso() {
-  return (
-    <svg width="36" height="36" viewBox="0 0 100 100" aria-label="Sumiko logo" className="shrink-0">
-      <circle cx="50" cy="50" r="40" fill="none" stroke={COLORS.primary} strokeWidth="6" strokeLinecap="round"/>
-      <circle cx="50" cy="50" r="40" fill="none" stroke={COLORS.accent} strokeWidth="2" strokeDasharray="10 14" strokeOpacity="0.35"/>
-    </svg>
-  );
+  return <LogoIcon />;
 }
 
 function LogoWordmark() {
-  const { t } = useLanguage();
-  
   return (
-    <svg width="240" height="64" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" aria-label="Sumiko">
-      <g>
-        <path d="M53 74c12-10 20-25 18-38-2-13-13-19-23-16-10 3-15 14-13 24 2 10 9 21 18 30z" stroke={COLORS.primary} strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M50 65c-4-8-6-15-5-21 1-6 5-10 9-11" stroke={COLORS.primary} strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-      </g>
-      <text x="95" y="42" style={{ fontFamily: "Georgia, serif", fontSize: 34, letterSpacing: "1.5px", fill: COLORS.primary }}>SUMIKO</text>
-      <text x="95" y="60" style={{ fontFamily: "Georgia, serif", fontSize: 12, fill: "#6B6258" }}>{t.heroSubtitle}</text>
-    </svg>
+    <a href="/" className="flex items-center hover:opacity-80 transition-opacity">
+      <img 
+        src="/photos/Sumiko_Logo_txt_NO_BKGRND.png" 
+        alt="Sumiko" 
+        className="h-10 md:h-12 w-auto object-contain"
+        style={{ maxWidth: '200px' }}
+      />
+    </a>
+  );
+}
+
+function LogoIcon() {
+  return (
+    <img 
+      src="/photos/Sumiko_Logo_NO_BKGRND.png" 
+      alt="Sumiko" 
+      className="h-8 w-8 object-contain"
+    />
   );
 }
 
@@ -1021,8 +1024,13 @@ function Footer() {
   const { t } = useLanguage();
   
   return (
-    <footer className="mt-16 py-10 text-center text-sm text-neutral-600">
-      © {new Date().getFullYear()} Sumiko — {t.heroSubtitle}
+    <footer className="mt-16 py-10 border-t border-black/5">
+      <div className="flex flex-col items-center gap-4 text-center text-sm text-neutral-600">
+        <div className="flex items-center justify-center mb-2">
+          <LogoIcon />
+        </div>
+        <p>© {new Date().getFullYear()} Sumiko — {t.heroSubtitle}</p>
+      </div>
     </footer>
   );
 }
