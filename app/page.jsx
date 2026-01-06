@@ -280,19 +280,19 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
         }
 
-        /* Broad cloud plumes - starts completely below view, random organic movement */
+        /* Broad cloud plumes - starts WAY below view, random organic movement */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 0px) scale(calc(var(--ps,1) * .80)) rotate(var(--pr,0deg)); opacity: .1; }
-          10%  { transform: translate(var(--px,0), -40px) scale(calc(var(--ps,1) * .85)) rotate(var(--pr,0deg)); opacity: .25; }
-          25%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.3), -100px) scale(calc(var(--ps,1) * .92)) rotate(calc(var(--pr,0deg) * 1.2)); opacity: .5; }
-          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.6), -200px) scale(calc(var(--ps,1) * .98)) rotate(calc(var(--pr,0deg) * 1.4)); opacity: .7; }
-          75%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.85), -300px) scale(calc(var(--ps,1) * 1.05)) rotate(calc(var(--pr,0deg) * 1.7)); opacity: .75; }
-          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -380px) scale(calc(var(--ps,1) * 1.09)) rotate(calc(var(--pr,0deg) * 1.95)); opacity: .55; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -450px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) * 2)); opacity: .1; }
+          0%   { transform: translate(var(--px,0), 0px) scale(calc(var(--ps,1) * .75)) rotate(var(--pr,0deg)); opacity: .05; }
+          15%  { transform: translate(var(--px,0), -100px) scale(calc(var(--ps,1) * .80)) rotate(var(--pr,0deg)); opacity: .2; }
+          30%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.3), -200px) scale(calc(var(--ps,1) * .88)) rotate(calc(var(--pr,0deg) * 1.1)); opacity: .4; }
+          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.5), -300px) scale(calc(var(--ps,1) * .94)) rotate(calc(var(--pr,0deg) * 1.3)); opacity: .65; }
+          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px) * 0.75), -400px) scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) * 1.6)); opacity: .75; }
+          85%  { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -450px) scale(calc(var(--ps,1) * 1.07)) rotate(calc(var(--pr,0deg) * 1.85)); opacity: .6; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,0px)), -500px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) * 2)); opacity: .1; }
         }
         .plume {
           position: absolute;
-          bottom: -100px;
+          bottom: -400px;
           border-radius: 60% 55% 50% 60% / 65% 60% 50% 55%;
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
