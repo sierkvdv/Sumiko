@@ -92,12 +92,61 @@ function CartProvider({ children }) {
 function SiteLayout({ children }) {
   const cart = useCart();
   const [open, setOpen] = useState(false);
+  const backgroundVideoRef = React.useRef(null);
+  const backgroundVideo = '/videos/Sumiko_BKGRND_Loop.mp4';
+
+  // Start background loop video - force play on iOS
+  React.useEffect(() => {
+    const bgVideo = backgroundVideoRef.current;
+    if (bgVideo) {
+      // Force play on iOS
+      bgVideo.setAttribute('playsinline', 'true');
+      bgVideo.setAttribute('webkit-playsinline', 'true');
+      const playPromise = bgVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If autoplay fails, try again after user interaction
+          const tryPlay = () => {
+            bgVideo.play().catch(() => {});
+            document.removeEventListener('touchstart', tryPlay);
+            document.removeEventListener('click', tryPlay);
+          };
+          document.addEventListener('touchstart', tryPlay, { once: true });
+          document.addEventListener('click', tryPlay, { once: true });
+        });
+      }
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen" style={{ background: COLORS.beige, color: COLORS.ink }}>
-      <TopBar onOpenCart={() => setOpen(true)} cartCount={cart.items.reduce((n,i)=>n+i.qty,0)} />
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">{children}</main>
-      <Footer />
-      <CartDrawer open={open} onClose={() => setOpen(false)} />
+    <div className="min-h-screen relative" style={{ color: COLORS.ink }}>
+      {/* Full-page background loop video */}
+      <video
+        ref={backgroundVideoRef}
+        className="fixed inset-0 w-full h-full object-cover z-0"
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
+        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}
+      >
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
+      
+      {/* Semi-transparent overlay for readability */}
+      <div className="fixed inset-0 bg-[#DDD6CE]/85 z-0" />
+      
+      {/* Content */}
+      <div className="relative z-10">
+        <TopBar onOpenCart={() => setOpen(true)} cartCount={cart.items.reduce((n,i)=>n+i.qty,0)} />
+        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">{children}</main>
+        <Footer />
+        <CartDrawer open={open} onClose={() => setOpen(false)} />
+      </div>
     </div>
   );
 }
@@ -152,7 +201,6 @@ function Hero({ onScrollToTeas }) {
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
   const [activeVideo, setActiveVideo] = React.useState(0); // 0 or 1 for double buffering
   const videoRefs = [React.useRef(null), React.useRef(null)];
-  const backgroundVideoRef = React.useRef(null);
   
   const videos = [
     '/videos/Sumiko_Hero_001.mp4',
@@ -160,8 +208,6 @@ function Hero({ onScrollToTeas }) {
     '/videos/Sumiko_Hero_003.mp4',
     '/videos/Sumiko_Hero_004.mp4'
   ];
-
-  const backgroundVideo = '/videos/Sumiko_BKGRND_Loop.mp4';
 
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
@@ -250,29 +296,7 @@ function Hero({ onScrollToTeas }) {
       nextVideo.load();
     }
   }, [currentVideoIndex, activeVideo]);
-
-  // Start background loop video - force play on iOS
-  React.useEffect(() => {
-    const bgVideo = backgroundVideoRef.current;
-    if (bgVideo) {
-      // Force play on iOS
-      bgVideo.setAttribute('playsinline', 'true');
-      bgVideo.setAttribute('webkit-playsinline', 'true');
-      const playPromise = bgVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If autoplay fails, try again after user interaction
-          const tryPlay = () => {
-            bgVideo.play().catch(() => {});
-            document.removeEventListener('touchstart', tryPlay);
-            document.removeEventListener('click', tryPlay);
-          };
-          document.addEventListener('touchstart', tryPlay, { once: true });
-          document.addEventListener('click', tryPlay, { once: true });
-        });
-      }
-    }
-  }, []);
+  
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
@@ -359,24 +383,8 @@ function Hero({ onScrollToTeas }) {
         }
       `}</style>
 
-      {/* Hero background videos - double buffering for seamless transitions */}
+      {/* Hero foreground videos - double buffering for seamless transitions */}
       <div className="absolute inset-0 z-[1] overflow-hidden">
-        {/* Background loop video */}
-        <video
-          ref={backgroundVideoRef}
-          className="absolute inset-0 w-full h-full object-cover z-0"
-          muted
-          loop
-          playsInline
-          autoPlay
-          preload="auto"
-          controls={false}
-          disablePictureInPicture
-          disableRemotePlayback
-        >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video>
-        
         {/* Foreground rotating videos */}
         {videoRefs.map((ref, i) => {
           const videoIndex = i === activeVideo ? currentVideoIndex : (currentVideoIndex + 1) % videos.length;
