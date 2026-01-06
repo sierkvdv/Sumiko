@@ -120,7 +120,37 @@ const translations = {
     orderCreated: "Order created (server stub). Replace with real gateway.",
     addToCart: "Add to cart",
     loading: "Loading…",
-    read: "Read →"
+    read: "Read →",
+    teasData: {
+      longjing: {
+        name: "Longjing (Dragon Well)",
+        type: "Green Tea",
+        region: "Zhejiang, China",
+        tasting: "Nutty, chestnut, fresh.",
+        notes: "Hand-picked, pan-fired to a gentle sweetness."
+      },
+      tieguanyin: {
+        name: "Tieguanyin",
+        type: "Oolong",
+        region: "Anxi, Fujian",
+        tasting: "Floral, creamy, orchid hints.",
+        notes: "Semi-oxidized; suitable for multiple infusions."
+      },
+      puerh: {
+        name: "Pu-erh",
+        type: "Fermented Dark Tea",
+        region: "Yunnan",
+        tasting: "Earthy, round, sweet finish.",
+        notes: "Improves with age; ideal after a meal."
+      },
+      "jasmine-pearls": {
+        name: "Jasmine Pearls",
+        type: "Scented Green",
+        region: "Fujian",
+        tasting: "Delicate jasmine aroma.",
+        notes: "Hand-rolled leaves scented with jasmine blossoms."
+      }
+    }
   },
   nl: {
     heroTitle: "Thee als een pauze.",
@@ -183,7 +213,37 @@ const translations = {
     orderCreated: "Bestelling aangemaakt (server test). Vervang met echte gateway.",
     addToCart: "Toevoegen aan winkelwagen",
     loading: "Laden…",
-    read: "Lees →"
+    read: "Lees →",
+    teasData: {
+      longjing: {
+        name: "Longjing (Dragon Well)",
+        type: "Groene Thee",
+        region: "Zhejiang, China",
+        tasting: "Notig, kastanje, vers.",
+        notes: "Handgeplukt, in de pan gebakken tot een zachte zoetheid."
+      },
+      tieguanyin: {
+        name: "Tieguanyin",
+        type: "Oolong",
+        region: "Anxi, Fujian",
+        tasting: "Bloemig, romig, orchidee hints.",
+        notes: "Half geoxideerd; geschikt voor meerdere infusies."
+      },
+      puerh: {
+        name: "Pu-erh",
+        type: "Gefermenteerde Donkere Thee",
+        region: "Yunnan",
+        tasting: "Aards, rond, zoete afdronk.",
+        notes: "Verbeterd met de leeftijd; ideaal na een maaltijd."
+      },
+      "jasmine-pearls": {
+        name: "Jasmijn Parels",
+        type: "Gearomatiseerde Groene",
+        region: "Fujian",
+        tasting: "Delicaat jasmijn aroma.",
+        notes: "Handgerolde bladeren gegeurd met jasmijn bloesems."
+      }
+    }
   },
   ja: {
     heroTitle: "茶は休憩。",
@@ -246,7 +306,37 @@ const translations = {
     orderCreated: "注文を作成しました（サーバーテスト）。実際のゲートウェイに置き換えてください。",
     addToCart: "カートに追加",
     loading: "読み込み中…",
-    read: "読む →"
+    read: "読む →",
+    teasData: {
+      longjing: {
+        name: "龍井（ドラゴンウェル）",
+        type: "緑茶",
+        region: "浙江省、中国",
+        tasting: "ナッツ、栗、フレッシュ。",
+        notes: "手摘み、パン焼きで優しい甘みに。"
+      },
+      tieguanyin: {
+        name: "鉄観音",
+        type: "烏龍茶",
+        region: "安渓、福建",
+        tasting: "花のような、クリーミー、蘭のヒント。",
+        notes: "半酸化；複数回の抽出に適している。"
+      },
+      puerh: {
+        name: "プーアール",
+        type: "発酵黒茶",
+        region: "雲南",
+        tasting: "土っぽい、丸み、甘い余韻。",
+        notes: "年齢とともに向上；食後に理想的。"
+      },
+      "jasmine-pearls": {
+        name: "茉莉花珠茶",
+        type: "香り付き緑茶",
+        region: "福建",
+        tasting: "繊細な茉莉花の香り。",
+        notes: "手で巻いた葉を茉莉花の花で香り付け。"
+      }
+    }
   }
 };
 
@@ -765,6 +855,22 @@ function Teas({ onOpenDetail }) {
   const { t } = useLanguage();
   useEffect(() => { Api.fetchTeas().then(setTeas).catch(()=>setTeas([])); }, []);
 
+  // Translate teas based on current language
+  const translatedTeas = teas.map(tea => {
+    const teaTranslations = t.teasData?.[tea.id];
+    if (teaTranslations) {
+      return {
+        ...tea,
+        name: teaTranslations.name,
+        type: teaTranslations.type,
+        region: teaTranslations.region,
+        tasting: teaTranslations.tasting,
+        notes: teaTranslations.notes
+      };
+    }
+    return tea;
+  });
+
   return (
     <section id="teas" className="mt-12">
       <div className="flex items-end justify-between gap-4">
@@ -786,7 +892,7 @@ function Teas({ onOpenDetail }) {
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {teas.map((tea) => (
+        {translatedTeas.map((tea) => (
           <TeaCard key={tea.id} tea={tea} onOpenDetail={() => onOpenDetail(tea.id)} onAdd={() => cart.add(tea, 1)} />
         ))}
       </div>
@@ -931,22 +1037,38 @@ function ProductModal({ open, teaId, onClose }) {
   }, [open, teaId]);
   if (!open) return null;
 
+  // Translate tea data
+  const translatedTea = tea ? (() => {
+    const teaTranslations = t.teasData?.[tea.id];
+    if (teaTranslations) {
+      return {
+        ...tea,
+        name: teaTranslations.name,
+        type: teaTranslations.type,
+        region: teaTranslations.region,
+        tasting: teaTranslations.tasting,
+        notes: teaTranslations.notes
+      };
+    }
+    return tea;
+  })() : null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal>
       <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl overflow-hidden">
-        {tea ? (
+        {translatedTea ? (
           <>
             <div className="aspect-video overflow-hidden">
-              <img src={tea.image} alt={tea.name} className="h-full w-full object-cover" />
+              <img src={translatedTea.image} alt={translatedTea.name} className="h-full w-full object-cover" />
             </div>
             <div className="p-5">
-              <h3 className="font-serif text-2xl" style={{ color: COLORS.ink }}>{tea.name}</h3>
-              <div className="text-sm text-neutral-600">{tea.type} · {tea.region}</div>
-              <p className="mt-2 text-neutral-700">{tea.tasting}</p>
-              <p className="text-sm text-neutral-600">{tea.notes}</p>
+              <h3 className="font-serif text-2xl" style={{ color: COLORS.ink }}>{translatedTea.name}</h3>
+              <div className="text-sm text-neutral-600">{translatedTea.type} · {translatedTea.region}</div>
+              <p className="mt-2 text-neutral-700">{translatedTea.tasting}</p>
+              <p className="text-sm text-neutral-600">{translatedTea.notes}</p>
               <div className="mt-4 flex items-center justify-between">
-                <span className="font-medium" style={{ color: COLORS.primary }}>{formatPrice(tea.priceCents)}</span>
-                <button onClick={() => cart.add(tea, 1)} className="px-4 py-2 rounded-lg text-white" style={{ background: COLORS.primary }}>{t.addToCart}</button>
+                <span className="font-medium" style={{ color: COLORS.primary }}>{formatPrice(translatedTea.priceCents)}</span>
+                <button onClick={() => cart.add(translatedTea, 1)} className="px-4 py-2 rounded-lg text-white" style={{ background: COLORS.primary }}>{t.addToCart}</button>
               </div>
               <div className="mt-4 text-right">
                 <button onClick={onClose} className="px-3 py-1.5 rounded-lg border text-sm" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>{t.close}</button>
