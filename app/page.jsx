@@ -144,6 +144,19 @@ function SiteLayout({ children }) {
         <source src={backgroundVideo} type="video/mp4" />
       </video>
       
+      {/* Semi-transparent overlay */}
+      <div 
+        style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          width: '100vw', 
+          height: '100vh', 
+          zIndex: 1,
+          backgroundColor: 'rgba(221, 214, 206, 0.5)',
+          pointerEvents: 'none'
+        }} 
+      />
       
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 10, color: COLORS.ink }}>
