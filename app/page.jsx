@@ -150,7 +150,8 @@ function LogoWordmark() {
 function Hero({ onScrollToTeas }) {
   const [plumes, setPlumes] = React.useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
-  const videoRef = React.useRef(null);
+  const [activeVideo, setActiveVideo] = React.useState(0); // 0 or 1 for double buffering
+  const videoRefs = [React.useRef(null), React.useRef(null)];
   
   const videos = [
     '/videos/Sumiko_Hero_001.mp4',
@@ -187,25 +188,57 @@ function Hero({ onScrollToTeas }) {
     setPlumes(generated);
   }, []);
 
+  // Handle video end and switch
   React.useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const currentVideo = videoRefs[activeVideo].current;
+    if (!currentVideo) return;
 
     const handleVideoEnd = () => {
-      setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+      const nextIndex = (currentVideoIndex + 1) % videos.length;
+      const nextVideo = videoRefs[1 - activeVideo].current;
+      
+      // Switch to next video immediately (it should be preloaded)
+      setActiveVideo(1 - activeVideo);
+      setCurrentVideoIndex(nextIndex);
+      
+      if (nextVideo) {
+        nextVideo.currentTime = 0;
+        if (nextVideo.readyState >= 2) {
+          nextVideo.play().catch(() => {});
+        } else {
+          nextVideo.addEventListener('canplaythrough', () => {
+            nextVideo.play().catch(() => {});
+          }, { once: true });
+        }
+      }
     };
 
-    video.addEventListener('ended', handleVideoEnd);
-    return () => video.removeEventListener('ended', handleVideoEnd);
-  }, [currentVideoIndex, videos.length]);
+    currentVideo.addEventListener('ended', handleVideoEnd);
+    return () => currentVideo.removeEventListener('ended', handleVideoEnd);
+  }, [currentVideoIndex, activeVideo, videos.length]);
 
+  // Ensure current video plays and preload next
   React.useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.load();
-      video.play().catch(() => {});
+    const currentVideo = videoRefs[activeVideo].current;
+    const nextIndex = (currentVideoIndex + 1) % videos.length;
+    const nextVideo = videoRefs[1 - activeVideo].current;
+
+    if (currentVideo) {
+      if (currentVideo.readyState >= 2) {
+        currentVideo.play().catch(() => {});
+      } else {
+        const playWhenReady = () => {
+          currentVideo.play().catch(() => {});
+        };
+        currentVideo.addEventListener('canplaythrough', playWhenReady, { once: true });
+      }
     }
-  }, [currentVideoIndex]);
+
+    // Preload next video
+    if (nextVideo) {
+      nextVideo.load();
+    }
+  }, [currentVideoIndex, activeVideo]);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
@@ -285,20 +318,27 @@ function Hero({ onScrollToTeas }) {
         }
       `}</style>
 
-      {/* Hero background videos */}
+      {/* Hero background videos - double buffering for seamless transitions */}
       <div className="absolute inset-0 z-[1] overflow-hidden">
-        <video
-          ref={videoRef}
-          key={currentVideoIndex}
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
-          autoPlay
-          muted
-          loop={false}
-          playsInline
-        >
-          <source src={videos[currentVideoIndex]} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F3EFE6]/40 to-[#F3EFE6]/80" />
+        {videoRefs.map((ref, i) => {
+          const videoIndex = i === activeVideo ? currentVideoIndex : (currentVideoIndex + 1) % videos.length;
+          return (
+            <video
+              key={i}
+              ref={ref}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                i === activeVideo ? 'z-10 opacity-60' : 'z-0 opacity-0'
+              }`}
+              muted
+              loop={false}
+              playsInline
+              preload="auto"
+            >
+              <source src={videos[videoIndex]} type="video/mp4" />
+            </video>
+          );
+        })}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F3EFE6]/40 to-[#F3EFE6]/80 z-20" />
       </div>
 
       {/* SVG noise filter for realistic steam distortion */}
