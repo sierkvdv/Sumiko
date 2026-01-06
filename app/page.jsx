@@ -119,18 +119,17 @@ function SiteLayout({ children }) {
   }, []);
 
   return (
-    <>
-      {/* Full-page background loop video - outside main container */}
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Full-page background loop video */}
       <video
         ref={backgroundVideoRef}
-        className="fixed inset-0 w-screen h-screen object-cover"
         style={{ 
           position: 'fixed', 
           top: 0, 
           left: 0, 
           width: '100vw', 
           height: '100vh', 
-          zIndex: -1,
+          zIndex: 0,
           objectFit: 'cover'
         }}
         muted
@@ -145,28 +144,28 @@ function SiteLayout({ children }) {
         <source src={backgroundVideo} type="video/mp4" />
       </video>
       
-      {/* Semi-transparent overlay for readability */}
+      {/* Semi-transparent overlay */}
       <div 
-        className="fixed inset-0 bg-[#DDD6CE]/50" 
         style={{ 
           position: 'fixed', 
           top: 0, 
           left: 0, 
           width: '100vw', 
           height: '100vh', 
-          zIndex: 0,
+          zIndex: 1,
+          backgroundColor: 'rgba(221, 214, 206, 0.3)',
           pointerEvents: 'none'
         }} 
       />
       
-      <div className="min-h-screen relative" style={{ color: COLORS.ink, position: 'relative', zIndex: 1 }}>
-        {/* Content */}
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 10, color: COLORS.ink }}>
         <TopBar onOpenCart={() => setOpen(true)} cartCount={cart.items.reduce((n,i)=>n+i.qty,0)} />
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">{children}</main>
         <Footer />
         <CartDrawer open={open} onClose={() => setOpen(false)} />
       </div>
-    </>
+    </div>
   );
 }
 
