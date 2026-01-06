@@ -282,17 +282,17 @@ function Hero({ onScrollToTeas }) {
 
         /* Broad cloud plumes - constant coverage with smoother transitions, starting from bottom */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 300px) scale(calc(var(--ps,1) * .92)) rotate(var(--pr,0deg)); opacity: .15; }
-          10%  { transform: translate(var(--px,0), 200px)  scale(calc(var(--ps,1) * .94)) rotate(var(--pr,0deg));  opacity: .4; }
-          25%  { transform: translate(var(--px,0), 100px)  scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg));  opacity: .55; }
-          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -40px)  scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
-          75%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -160px) scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
-          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -240px) scale(calc(var(--ps,1) * 1.09))  rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
+          0%   { transform: translate(var(--px,0), 0px) scale(calc(var(--ps,1) * .92)) rotate(var(--pr,0deg)); opacity: .15; }
+          10%  { transform: translate(var(--px,0), -50px)  scale(calc(var(--ps,1) * .94)) rotate(var(--pr,0deg));  opacity: .4; }
+          25%  { transform: translate(var(--px,0), -100px)  scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg));  opacity: .55; }
+          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -200px)  scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
+          75%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
+          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -380px) scale(calc(var(--ps,1) * 1.09))  rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -450px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
         }
         .plume {
           position: absolute;
-          bottom: 0;
+          bottom: -300px;
           border-radius: 60% 55% 50% 60% / 65% 60% 50% 55%;
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
@@ -321,7 +321,7 @@ function Hero({ onScrollToTeas }) {
       </svg>
 
       {/* Steam – animated clouds (white, with noise distortion) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2] overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2]" style={{ overflow: 'visible', WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
         {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
         {/* base white mist with noise - stronger for constant coverage */}
