@@ -521,15 +521,16 @@ function Enso() {
 
 function LogoWordmark() {
   return (
-    <a href="/" className="flex items-center hover:opacity-80 transition-opacity">
+    <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
       <img 
-        src="/photos/Sumiko_Logo_txt_NO_BKGRND.png" 
+        src="/photos/Sumiko_Logo_only_txt_NO_BKGRND.png" 
         alt="Sumiko" 
-        className="h-16 md:h-20 w-auto object-contain"
-        style={{ 
-          maxWidth: 'none',
-          imageRendering: 'crisp-edges'
-        }}
+        className="h-6 md:h-8 w-auto object-contain"
+      />
+      <img 
+        src="/photos/Sumiko_Logo_NO_BKGRND.png" 
+        alt="" 
+        className="h-6 md:h-8 w-auto object-contain"
       />
     </a>
   );
