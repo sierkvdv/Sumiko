@@ -152,6 +152,7 @@ function Hero({ onScrollToTeas }) {
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
   const [activeVideo, setActiveVideo] = React.useState(0); // 0 or 1 for double buffering
   const videoRefs = [React.useRef(null), React.useRef(null)];
+  const backgroundVideoRef = React.useRef(null);
   
   const videos = [
     '/videos/Sumiko_Hero_001.mp4',
@@ -159,6 +160,8 @@ function Hero({ onScrollToTeas }) {
     '/videos/Sumiko_Hero_003.mp4',
     '/videos/Sumiko_Hero_004.mp4'
   ];
+
+  const backgroundVideo = '/videos/Sumiko_BKGRND_Loop.mp4';
 
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
@@ -239,6 +242,14 @@ function Hero({ onScrollToTeas }) {
       nextVideo.load();
     }
   }, [currentVideoIndex, activeVideo]);
+
+  // Start background loop video
+  React.useEffect(() => {
+    const bgVideo = backgroundVideoRef.current;
+    if (bgVideo) {
+      bgVideo.play().catch(() => {});
+    }
+  }, []);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
@@ -320,6 +331,20 @@ function Hero({ onScrollToTeas }) {
 
       {/* Hero background videos - double buffering for seamless transitions */}
       <div className="absolute inset-0 z-[1] overflow-hidden">
+        {/* Background loop video */}
+        <video
+          ref={backgroundVideoRef}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="auto"
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+        </video>
+        
+        {/* Foreground rotating videos */}
         {videoRefs.map((ref, i) => {
           const videoIndex = i === activeVideo ? currentVideoIndex : (currentVideoIndex + 1) % videos.length;
           return (
