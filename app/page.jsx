@@ -149,86 +149,32 @@ function LogoWordmark() {
 
 function Hero({ onScrollToTeas }) {
   const [plumes, setPlumes] = React.useState([]);
-  const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
-  const videoRef = React.useRef(null);
-  
-  const videos = [
-    '/videos/Sumiko_Hero_001.mp4',
-    '/videos/Sumiko_Hero_002.mp4',
-    '/videos/Sumiko_Hero_003.mp4',
-    '/videos/Sumiko_Hero_004.mp4'
-  ];
-
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
-    // More plumes for constant coverage - completely random positions
-    const count = 12;
-    const generated = Array.from({ length: count }, (_, i) => {
-      // Random positions across the width, not evenly distributed
-      const left = rand(2, 96);
-      const width = rand(180, 300);
-      const height = rand(220, 340);
-      // Varied durations for more organic feel
-      const duration = rand(10, 15);
-      // Random delays to break the pattern
-      const delay = rand(-duration * 0.8, duration * 0.2);
-      // Random drift - can go left, right, or stay more vertical
-      const drift = rand(-50, 50);
+    const count = 7;
+    const baseLefts = Array.from({ length: count }, (_, i) => 6 + (88 / (count - 1)) * i);
+    const generated = baseLefts.map((left) => {
+      const jitter = rand(-3, 3);
+      const width = rand(210, 260);
+      const height = rand(250, 290);
+      const duration = rand(11, 13.5);
+      // Negative delay desynchronizes first cycle so they don't start/stop together
+      const delay = -rand(0, duration);
       return {
-        left,
+        left: Math.max(2, Math.min(96, left + jitter)),
         width,
         height,
-        drift,
-        scale: rand(0.88, 1.12),
-        rotate: rand(-5, 5),
+        drift: rand(-28, 28),
+        scale: rand(0.95, 1.08),
+        rotate: rand(-2, 2),
         duration,
         delay
       };
     });
     setPlumes(generated);
   }, []);
-
-  // Handle video end event to play next video
-  React.useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleEnded = () => {
-      setCurrentVideoIndex((prev) => {
-        const next = (prev + 1) % videos.length;
-        return next;
-      });
-    };
-
-    video.addEventListener('ended', handleEnded);
-    return () => {
-      video.removeEventListener('ended', handleEnded);
-    };
-  }, [currentVideoIndex, videos.length]);
-
-  // Update video source when index changes
-  React.useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.load();
-    video.play().catch(() => {
-      // Autoplay might fail, that's okay
-    });
-  }, [currentVideoIndex]);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
-      {/* Video background - plays sequentially */}
-      <video
-        ref={videoRef}
-        src={videos[currentVideoIndex]}
-        className="absolute inset-0 w-full h-full object-cover z-[1]"
-        muted
-        playsInline
-        autoPlay
-      />
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/20 z-[1]" />
-      
       <style>{`
         /* Make steam more visible and add gentle sway */
         @keyframes steamRiseA { 0%{transform:translateY(24px) translateX(-8px) scale(1);opacity:0} 30%{opacity:.55} 100%{transform:translateY(-90px) translateX(-10px) scale(1.1);opacity:0} }
@@ -280,27 +226,27 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
         }
 
-        /* Broad cloud plumes - constant coverage with smoother transitions */
+        /* Broad cloud plumes (so it looks like steam clouds instead of dots) */
         @keyframes plumeRise {
-          0%   { transform: translate(var(--px,0), 320px) scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg)); opacity: .15; }
-          15%  { transform: translate(var(--px,0), 250px)  scale(calc(var(--ps,1) * .98)) rotate(var(--pr,0deg));  opacity: .5; }
-          40%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), 140px)  scale(calc(var(--ps,1) * 1.04)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
-          70%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), 20px) scale(calc(var(--ps,1) * 1.08)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
-          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -50px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -100px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
+          0%   { transform: translate(var(--px,0), 400px) scale(calc(var(--ps,1) * .95)) rotate(var(--pr,0deg)); opacity: 0; }
+          20%  { transform: translate(var(--px,0), 320px)  scale(calc(var(--ps,1) * .98)) rotate(var(--pr,0deg));  opacity: .45; }
+          50%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), 190px)  scale(calc(var(--ps,1) * 1.05)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .8; }
+          90%  { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), 50px) scale(calc(var(--ps,1) * 1.1))  rotate(calc(var(--pr,0deg) + 4deg)); opacity: .6; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -20px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: 0; }
         }
         .plume {
           position: absolute;
-          bottom: -200px;
+          bottom: 0;
           border-radius: 60% 55% 50% 60% / 65% 60% 50% 55%;
           background: radial-gradient(60% 90% at 50% 80%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 65%);
           filter: url(#steamNoise) blur(14px) contrast(130%) brightness(118%);
           transform-origin: 50% 100%;
-          animation: plumeRise var(--pdur,10.5s) linear infinite both;
+          animation: plumeRise var(--pdur,11.5s) linear infinite both;
           animation-delay: var(--pdelay,0s);
           will-change: transform, opacity;
           pointer-events: none;
           mix-blend-mode: screen;
+          opacity: 0;
         }
       `}</style>
 
@@ -323,8 +269,8 @@ function Hero({ onScrollToTeas }) {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-96 z-[2] overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.35) 24px, rgba(0,0,0,1) 64px)" }}>
         {/* subtle dark band for contrast */}
         <div className="absolute inset-x-0 bottom-0 h-52" style={{ background: "radial-gradient(120% 100% at 50% 100%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0) 70%)", filter: "blur(12px)" }} />
-        {/* base white mist with noise - stronger for constant coverage */}
-        <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.25) 40%, ${STEAM_FADE} 75%)`, filter: "url(#steamNoise) blur(10px) contrast(125%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.5) 25px, rgba(0,0,0,1) 65px)" }} />
+        {/* base white mist with noise (lighter to avoid initial blotches) */}
+        <div className="absolute inset-x-0 bottom-0 h-36" style={{ background: `radial-gradient(120% 100% at 50% 100%, rgba(255,255,255,0.35) 0%, ${STEAM_FADE} 70%)`, filter: "url(#steamNoise) blur(10px) contrast(120%) brightness(115%)", mixBlendMode: "screen", WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,0) 0px, rgba(0,0,0,0.4) 20px, rgba(0,0,0,1) 60px)" }} />
 
         {/* broad cloud plumes across the width with randomized offsets per load */}
         {plumes.map((p, i) => (
@@ -346,7 +292,7 @@ function Hero({ onScrollToTeas }) {
         ))}
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-[1]" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
+      <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
 
       <div className="max-w-3xl relative z-[3]">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
