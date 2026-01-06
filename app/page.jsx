@@ -149,6 +149,16 @@ function LogoWordmark() {
 
 function Hero({ onScrollToTeas }) {
   const [plumes, setPlumes] = React.useState([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0);
+  const videoRef = React.useRef(null);
+  
+  const videos = [
+    '/videos/Sumiko_Hero_001.mp4',
+    '/videos/Sumiko_Hero_002.mp4',
+    '/videos/Sumiko_Hero_003.mp4',
+    '/videos/Sumiko_Hero_004.mp4'
+  ];
+
   React.useEffect(() => {
     const rand = (min, max) => Math.random() * (max - min) + min;
     // More plumes for constant coverage
@@ -176,6 +186,26 @@ function Hero({ onScrollToTeas }) {
     });
     setPlumes(generated);
   }, []);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleVideoEnd = () => {
+      setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+    };
+
+    video.addEventListener('ended', handleVideoEnd);
+    return () => video.removeEventListener('ended', handleVideoEnd);
+  }, [currentVideoIndex, videos.length]);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.load();
+      video.play().catch(() => {});
+    }
+  }, [currentVideoIndex]);
   return (
     <section className="relative overflow-hidden rounded-2xl border border-black/5 bg-[#F3EFE6] p-8 md:p-12 shadow-lg">
       <style>{`
@@ -255,7 +285,21 @@ function Hero({ onScrollToTeas }) {
         }
       `}</style>
 
-      {/* Teapot removed per request */}
+      {/* Hero background videos */}
+      <div className="absolute inset-0 z-[1] overflow-hidden">
+        <video
+          ref={videoRef}
+          key={currentVideoIndex}
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          autoPlay
+          muted
+          loop={false}
+          playsInline
+        >
+          <source src={videos[currentVideoIndex]} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F3EFE6]/40 to-[#F3EFE6]/80" />
+      </div>
 
       {/* SVG noise filter for realistic steam distortion */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden focusable="false">
