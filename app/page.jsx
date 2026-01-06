@@ -48,10 +48,207 @@ const Api = {
 };
 
 const CartCtx = createContext(null);
+const LanguageCtx = createContext(null);
 
 function useCart() {
   return useContext(CartCtx);
 }
+
+function useLanguage() {
+  return useContext(LanguageCtx);
+}
+
+const translations = {
+  en: {
+    heroTitle: "Tea as a pause.",
+    heroSubtitle: "Let the leaves speak.",
+    heroDescription: "Carefully sourced Chinese teas curated in Japan. Poured slowly, shared warmly — like visiting a friend's living room.",
+    exploreTeas: "Explore Teas",
+    ourStory: "Our Story",
+    story: "Story",
+    teas: "Teas",
+    ritual: "Ritual",
+    journal: "Journal",
+    contact: "Contact",
+    cart: "Cart",
+    readFullStory: "Read the full story",
+    storyDescription: "Born between Chinese tea lineages and Japanese stillness, Sumiko shares real tea the way it's felt — not performed. Slow, human, and warm.",
+    allTypes: "All types",
+    green: "Green",
+    oolong: "Oolong",
+    dark: "Dark",
+    scented: "Scented",
+    sortFeatured: "Sort: Featured",
+    sortPriceLow: "Sort: Price (low → high)",
+    sortPriceHigh: "Sort: Price (high → low)",
+    details: "Details",
+    add: "Add",
+    added: "Added ✓",
+    ritualBrewing: "Ritual (Brewing)",
+    ritualStep1: "Measure leaves (by gram) and warm your vessel.",
+    ritualStep2: "Heat water appropriate to the tea type.",
+    ritualStep3: "Bloom briefly; pour slowly; breathe.",
+    ritualStep4: "Taste; adjust time; reinfuse.",
+    ritualNote: "Multiple infusions reveal layers. Let the leaves speak.",
+    tools: "Tools",
+    toolsList1: "Scale, kettle with temp control, gaiwan or small pot, fairness cup, cups.",
+    toolsList2: "Optional: tea tray, filter, timer.",
+    stayInTouch: "Stay in touch",
+    stayInTouchDesc: "We write slowly. When we have something worth saying.",
+    join: "Join",
+    subscribed: "Subscribed. Thank you.",
+    yourCart: "Your Cart",
+    close: "Close",
+    cartEmpty: "Your cart is empty.",
+    qty: "Qty",
+    remove: "Remove",
+    subtotal: "Subtotal",
+    shipping: "Shipping",
+    free: "Free",
+    total: "Total",
+    checkout: "Checkout",
+    firstName: "First name",
+    lastName: "Last name",
+    email: "Email",
+    address: "Address",
+    city: "City",
+    postalCode: "Postal code",
+    notes: "Notes (optional)",
+    amountDue: "Amount due:",
+    payNow: "Pay now (stub)",
+    processing: "Processing…",
+    orderCreated: "Order created (server stub). Replace with real gateway.",
+    addToCart: "Add to cart",
+    loading: "Loading…",
+    read: "Read →"
+  },
+  nl: {
+    heroTitle: "Thee als een pauze.",
+    heroSubtitle: "Laat de bladeren spreken.",
+    heroDescription: "Met zorg geselecteerde Chinese theeën, samengesteld in Japan. Langzaam geschonken, warm gedeeld — alsof je de woonkamer van een vriend bezoekt.",
+    exploreTeas: "Bekijk Theeën",
+    ourStory: "Ons Verhaal",
+    story: "Verhaal",
+    teas: "Theeën",
+    ritual: "Ritueel",
+    journal: "Dagboek",
+    contact: "Contact",
+    cart: "Winkelwagen",
+    readFullStory: "Lees het volledige verhaal",
+    storyDescription: "Geboren tussen Chinese thee tradities en Japanse rust, deelt Sumiko echte thee zoals het gevoeld wordt — niet opgevoerd. Langzaam, menselijk en warm.",
+    allTypes: "Alle soorten",
+    green: "Groen",
+    oolong: "Oolong",
+    dark: "Donker",
+    scented: "Gearomatiseerd",
+    sortFeatured: "Sorteer: Aanbevolen",
+    sortPriceLow: "Sorteer: Prijs (laag → hoog)",
+    sortPriceHigh: "Sorteer: Prijs (hoog → laag)",
+    details: "Details",
+    add: "Toevoegen",
+    added: "Toegevoegd ✓",
+    ritualBrewing: "Ritueel (Zetten)",
+    ritualStep1: "Meet de bladeren (in gram) en warm je vat op.",
+    ritualStep2: "Verwarm water geschikt voor het thee type.",
+    ritualStep3: "Laat kort bloeien; schenk langzaam; adem.",
+    ritualStep4: "Proef; pas de tijd aan; opnieuw infuseren.",
+    ritualNote: "Meerdere infusies onthullen lagen. Laat de bladeren spreken.",
+    tools: "Gereedschappen",
+    toolsList1: "Weegschaal, waterkoker met temperatuur, gaiwan of kleine pot, verdeelkom, kopjes.",
+    toolsList2: "Optioneel: thee dienblad, filter, timer.",
+    stayInTouch: "Blijf op de hoogte",
+    stayInTouchDesc: "We schrijven langzaam. Als we iets de moeite waard hebben om te zeggen.",
+    join: "Aanmelden",
+    subscribed: "Aangemeld. Dank je wel.",
+    yourCart: "Je Winkelwagen",
+    close: "Sluiten",
+    cartEmpty: "Je winkelwagen is leeg.",
+    qty: "Aantal",
+    remove: "Verwijderen",
+    subtotal: "Subtotaal",
+    shipping: "Verzending",
+    free: "Gratis",
+    total: "Totaal",
+    checkout: "Afrekenen",
+    firstName: "Voornaam",
+    lastName: "Achternaam",
+    email: "E-mail",
+    address: "Adres",
+    city: "Stad",
+    postalCode: "Postcode",
+    notes: "Opmerkingen (optioneel)",
+    amountDue: "Te betalen:",
+    payNow: "Nu betalen (test)",
+    processing: "Verwerken…",
+    orderCreated: "Bestelling aangemaakt (server test). Vervang met echte gateway.",
+    addToCart: "Toevoegen aan winkelwagen",
+    loading: "Laden…",
+    read: "Lees →"
+  },
+  ja: {
+    heroTitle: "茶は休憩。",
+    heroSubtitle: "葉に語らせよう。",
+    heroDescription: "中国の茶を厳選し、日本で仕上げた。ゆっくりと注ぎ、温かく共有する — 友人のリビングルームを訪れるように。",
+    exploreTeas: "茶を見る",
+    ourStory: "私たちの物語",
+    story: "物語",
+    teas: "茶",
+    ritual: "儀式",
+    journal: "日記",
+    contact: "連絡先",
+    cart: "カート",
+    readFullStory: "全文を読む",
+    storyDescription: "中国の茶の系譜と日本の静けさの間に生まれた、すみこは感じられるままに本当の茶を共有する — 演じられるのではなく。ゆっくりと、人間らしく、温かく。",
+    allTypes: "すべての種類",
+    green: "緑茶",
+    oolong: "烏龍茶",
+    dark: "黒茶",
+    scented: "香り付き",
+    sortFeatured: "並び替え: おすすめ",
+    sortPriceLow: "並び替え: 価格（安い→高い）",
+    sortPriceHigh: "並び替え: 価格（高い→安い）",
+    details: "詳細",
+    add: "追加",
+    added: "追加済み ✓",
+    ritualBrewing: "儀式（淹れ方）",
+    ritualStep1: "茶葉を計量（グラム単位）し、茶器を温める。",
+    ritualStep2: "茶の種類に適した温度で湯を沸かす。",
+    ritualStep3: "短く蒸らし；ゆっくり注ぐ；呼吸する。",
+    ritualStep4: "味わう；時間を調整する；再抽出する。",
+    ritualNote: "複数回の抽出が層を明かす。葉に語らせよう。",
+    tools: "道具",
+    toolsList1: "秤、温度調整付きやかん、蓋碗または小さな急須、公道杯、茶杯。",
+    toolsList2: "任意：茶盤、フィルター、タイマー。",
+    stayInTouch: "お問い合わせ",
+    stayInTouchDesc: "ゆっくりと書きます。言う価値のあることがあるときに。",
+    join: "登録",
+    subscribed: "登録ありがとうございます。",
+    yourCart: "カート",
+    close: "閉じる",
+    cartEmpty: "カートは空です。",
+    qty: "数量",
+    remove: "削除",
+    subtotal: "小計",
+    shipping: "送料",
+    free: "無料",
+    total: "合計",
+    checkout: "レジへ",
+    firstName: "名",
+    lastName: "姓",
+    email: "メール",
+    address: "住所",
+    city: "市区町村",
+    postalCode: "郵便番号",
+    notes: "備考（任意）",
+    amountDue: "支払額:",
+    payNow: "今すぐ支払う（テスト）",
+    processing: "処理中…",
+    orderCreated: "注文を作成しました（サーバーテスト）。実際のゲートウェイに置き換えてください。",
+    addToCart: "カートに追加",
+    loading: "読み込み中…",
+    read: "読む →"
+  }
+};
 
 function CartProvider({ children }) {
   const [items, setItems] = useState([]);
@@ -87,6 +284,27 @@ function CartProvider({ children }) {
 
   const value = { items, add, remove, setQty, clear, subtotal, shippingCents, total };
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
+}
+
+function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState('en');
+  
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("sumiko_language");
+      if (saved && (saved === 'en' || saved === 'nl' || saved === 'ja')) {
+        setLanguage(saved);
+      }
+    } catch {}
+  }, []);
+  
+  useEffect(() => {
+    try { localStorage.setItem("sumiko_language", language); } catch {}
+  }, [language]);
+
+  const t = translations[language] || translations.en;
+  const value = { language, setLanguage, t };
+  return <LanguageCtx.Provider value={value}>{children}</LanguageCtx.Provider>;
 }
 
 function SiteLayout({ children }) {
@@ -171,23 +389,37 @@ function SiteLayout({ children }) {
 }
 
 function TopBar({ onOpenCart, cartCount }) {
+  const { t, language, setLanguage } = useLanguage();
+  
   return (
     <header className="sticky top-0 z-40 backdrop-blur bg-[#F3EFE6]/70 border-b border-black/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-6">
         <div className="flex items-center gap-3"><LogoWordmark /></div>
         <nav className="ml-auto hidden md:flex items-center gap-6 text-sm">
-          <a href="/story" className="hover:opacity-80">Story</a>
-          <a href="#teas" className="hover:opacity-80">Teas</a>
-          <a href="#ritual" className="hover:opacity-80">Ritual</a>
-          <a href="#journal" className="hover:opacity-80">Journal</a>
-          <a href="#contact" className="hover:opacity-80">Contact</a>
+          <a href="/story" className="hover:opacity-80">{t.story}</a>
+          <a href="#teas" className="hover:opacity-80">{t.teas}</a>
+          <a href="#ritual" className="hover:opacity-80">{t.ritual}</a>
+          <a href="#journal" className="hover:opacity-80">{t.journal}</a>
+          <a href="#contact" className="hover:opacity-80">{t.contact}</a>
         </nav>
-        <button onClick={onOpenCart} className="ml-auto md:ml-0 relative rounded-full border px-3 py-1.5 text-sm hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
-          Cart
-          {cartCount > 0 && (
-            <span className="absolute -right-2 -top-2 rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5">{cartCount}</span>
-          )}
-        </button>
+        <div className="flex items-center gap-3">
+          <select 
+            value={language} 
+            onChange={(e) => setLanguage(e.target.value)}
+            className="text-sm border rounded px-2 py-1 bg-white"
+            style={{ borderColor: COLORS.primary }}
+          >
+            <option value="en">EN</option>
+            <option value="nl">NL</option>
+            <option value="ja">JP</option>
+          </select>
+          <button onClick={onOpenCart} className="relative rounded-full border px-3 py-1.5 text-sm hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
+            {t.cart}
+            {cartCount > 0 && (
+              <span className="absolute -right-2 -top-2 rounded-full bg-red-500 text-white text-[10px] px-1.5 py-0.5">{cartCount}</span>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );
@@ -203,6 +435,8 @@ function Enso() {
 }
 
 function LogoWordmark() {
+  const { t } = useLanguage();
+  
   return (
     <svg width="240" height="64" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" aria-label="Sumiko">
       <g>
@@ -210,8 +444,34 @@ function LogoWordmark() {
         <path d="M50 65c-4-8-6-15-5-21 1-6 5-10 9-11" stroke={COLORS.primary} strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
       </g>
       <text x="95" y="42" style={{ fontFamily: "Georgia, serif", fontSize: 34, letterSpacing: "1.5px", fill: COLORS.primary }}>SUMIKO</text>
-      <text x="95" y="60" style={{ fontFamily: "Georgia, serif", fontSize: 12, fill: "#6B6258" }}>Let the leaves speak</text>
+      <text x="95" y="60" style={{ fontFamily: "Georgia, serif", fontSize: 12, fill: "#6B6258" }}>{t.heroSubtitle}</text>
     </svg>
+  );
+}
+
+function HeroContent({ onScrollToTeas }) {
+  const { t } = useLanguage();
+  
+  return (
+    <div className="max-w-3xl relative z-[3]">
+      <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
+        {t.heroTitle}{" "}
+        <span className="text-[color:var(--primary)]" style={{ color: COLORS.primary }}>
+          {t.heroSubtitle}
+        </span>
+      </h1>
+      <p className="mt-4 text-neutral-700">
+        {t.heroDescription}
+      </p>
+      <div className="mt-6 flex gap-3">
+        <button onClick={onScrollToTeas} className="px-4 py-2 rounded-xl text-white font-medium hover:opacity-90" style={{ background: COLORS.primary }}>
+          {t.exploreTeas}
+        </button>
+        <a href="/story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
+          {t.ourStory}
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -472,43 +732,26 @@ function Hero({ onScrollToTeas }) {
 
       <div className="pointer-events-none absolute inset-0 z-0" style={{ animation: "breathe 12s ease-in-out infinite", boxShadow: "inset 0 0 220px rgba(0,0,0,0.14)" }} />
 
-      <div className="max-w-3xl relative z-[3]">
-        <h1 className="font-serif text-4xl md:text-5xl leading-tight" style={{ color: COLORS.ink }}>
-          Tea as a pause.{" "}
-          <span className="text-[color:var(--primary)]" style={{ color: COLORS.primary }}>
-            Let the leaves speak.
-          </span>
-        </h1>
-        <p className="mt-4 text-neutral-700">
-          Carefully sourced Chinese teas curated in Japan. Poured slowly, shared warmly — like visiting a friend’s living room.
-        </p>
-        <div className="mt-6 flex gap-3">
-          <button onClick={onScrollToTeas} className="px-4 py-2 rounded-xl text-white font-medium hover:opacity-90" style={{ background: COLORS.primary }}>
-            Explore Teas
-          </button>
-          <a href="/story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
-            Our Story
-          </a>
-        </div>
-      </div>
+      <HeroContent onScrollToTeas={onScrollToTeas} />
     </section>
   );
 }
 
 function StoryTeaser() {
+  const { t } = useLanguage();
+  
   return (
     <section className="mt-12">
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow flex flex-col md:flex-row md:items-center gap-6">
         <div className="flex-1">
-          <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Our Story</h2>
+          <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>{t.ourStory}</h2>
           <p className="mt-2 text-neutral-700">
-            Born between Chinese tea lineages and Japanese stillness, Sumiko shares real tea the way it’s felt — not performed.
-            Slow, human, and warm.
+            {t.storyDescription}
           </p>
         </div>
         <div>
           <a href="/story" className="px-4 py-2 rounded-xl border font-medium hover:bg-black/5" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>
-            Read the full story
+            {t.readFullStory}
           </a>
         </div>
       </div>
@@ -519,31 +762,32 @@ function StoryTeaser() {
 function Teas({ onOpenDetail }) {
   const [teas, setTeas] = useState([]);
   const cart = useCart();
+  const { t } = useLanguage();
   useEffect(() => { Api.fetchTeas().then(setTeas).catch(()=>setTeas([])); }, []);
 
   return (
     <section id="teas" className="mt-12">
       <div className="flex items-end justify-between gap-4">
-        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Teas</h2>
+        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>{t.teas}</h2>
         <div className="flex gap-2 text-sm">
           <select className="border rounded-md px-2 py-1 bg-white">
-            <option>All types</option>
-            <option>Green</option>
-            <option>Oolong</option>
-            <option>Dark</option>
-            <option>Scented</option>
+            <option>{t.allTypes}</option>
+            <option>{t.green}</option>
+            <option>{t.oolong}</option>
+            <option>{t.dark}</option>
+            <option>{t.scented}</option>
           </select>
           <select className="border rounded-md px-2 py-1 bg-white">
-            <option>Sort: Featured</option>
-            <option>Sort: Price (low → high)</option>
-            <option>Sort: Price (high → low)</option>
+            <option>{t.sortFeatured}</option>
+            <option>{t.sortPriceLow}</option>
+            <option>{t.sortPriceHigh}</option>
           </select>
         </div>
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {teas.map((t) => (
-          <TeaCard key={t.id} tea={t} onOpenDetail={() => onOpenDetail(t.id)} onAdd={() => cart.add(t, 1)} />
+        {teas.map((tea) => (
+          <TeaCard key={tea.id} tea={tea} onOpenDetail={() => onOpenDetail(tea.id)} onAdd={() => cart.add(tea, 1)} />
         ))}
       </div>
     </section>
@@ -552,6 +796,7 @@ function Teas({ onOpenDetail }) {
 
 function TeaCard({ tea, onOpenDetail, onAdd }) {
   const [justAdded, setJustAdded] = React.useState(false);
+  const { t } = useLanguage();
   const handleAdd = () => {
     onAdd();
     setJustAdded(true);
@@ -569,13 +814,13 @@ function TeaCard({ tea, onOpenDetail, onAdd }) {
         <div className="mt-3 flex items-center justify-between">
           <span className="text-[15px] font-medium" style={{ color: COLORS.primary }}>{formatPrice(tea.priceCents)}</span>
           <div className="flex gap-2">
-            <button onClick={onOpenDetail} className="px-3 py-1.5 rounded-lg text-sm text-white" style={{ background: COLORS.primary }}>Details</button>
+            <button onClick={onOpenDetail} className="px-3 py-1.5 rounded-lg text-sm text-white" style={{ background: COLORS.primary }}>{t.details}</button>
             <button
               onClick={handleAdd}
               className="px-3 py-1.5 rounded-lg text-sm border transition-all hover:bg-black/5 hover:border-transparent hover:text-white active:scale-[.97]"
               style={{ borderColor: COLORS.primary, color: COLORS.primary, backgroundColor: justAdded ? COLORS.primary : 'transparent' }}
             >
-              {justAdded ? 'Added ✓' : 'Add'}
+              {justAdded ? t.added : t.add}
             </button>
           </div>
         </div>
@@ -585,23 +830,25 @@ function TeaCard({ tea, onOpenDetail, onAdd }) {
 }
 
 function Ritual() {
+  const { t } = useLanguage();
+  
   return (
     <section id="ritual" className="mt-12 grid gap-6 md:grid-cols-2">
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow">
-        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Ritual (Brewing)</h2>
+        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>{t.ritualBrewing}</h2>
         <ol className="mt-3 list-decimal pl-6 text-neutral-700 space-y-1">
-          <li>Measure leaves (by gram) and warm your vessel.</li>
-          <li>Heat water appropriate to the tea type.</li>
-          <li>Bloom briefly; pour slowly; breathe.</li>
-          <li>Taste; adjust time; reinfuse.</li>
+          <li>{t.ritualStep1}</li>
+          <li>{t.ritualStep2}</li>
+          <li>{t.ritualStep3}</li>
+          <li>{t.ritualStep4}</li>
         </ol>
-        <p className="mt-3 text-sm text-neutral-600">Multiple infusions reveal layers. Let the leaves speak.</p>
+        <p className="mt-3 text-sm text-neutral-600">{t.ritualNote}</p>
       </div>
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow">
-        <h3 className="font-serif text-xl" style={{ color: COLORS.accent }}>Tools</h3>
+        <h3 className="font-serif text-xl" style={{ color: COLORS.accent }}>{t.tools}</h3>
         <ul className="list-disc pl-5 text-neutral-700 space-y-1 mt-2">
-          <li>Scale, kettle with temp control, gaiwan or small pot, fairness cup, cups.</li>
-          <li>Optional: tea tray, filter, timer.</li>
+          <li>{t.toolsList1}</li>
+          <li>{t.toolsList2}</li>
         </ul>
       </div>
     </section>
@@ -609,21 +856,22 @@ function Ritual() {
 }
 
 function Journal() {
+  const { t } = useLanguage();
   const posts = [
-    { id: 1, title: "Why we don’t rush tea", date: "2025-11-01" },
+    { id: 1, title: "Why we don't rush tea", date: "2025-11-01" },
     { id: 2, title: "Visiting a small farm in Fujian", date: "2025-11-07" }
   ];
   return (
     <section id="journal" className="mt-12">
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow">
-        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Journal</h2>
+        <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>{t.journal}</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {posts.map((p) => (
             <article key={p.id} className="rounded-xl border p-4 hover:bg-black/5 transition">
               <div className="text-sm text-neutral-500">{p.date}</div>
               <h3 className="font-medium text-neutral-800">{p.title}</h3>
               <button className="mt-2 text-sm underline" aria-label={`Read ${p.title}`}>
-                Read →
+                {t.read}
               </button>
             </article>
           ))}
@@ -636,6 +884,7 @@ function Journal() {
 function Contact() {
   const [email, setEmail] = useState("");
   const [ok, setOk] = useState(false);
+  const { t } = useLanguage();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -647,25 +896,27 @@ function Contact() {
     <section id="contact" className="mt-12">
       <div className="rounded-2xl border border-black/5 bg-white p-6 shadow grid md:grid-cols-2 gap-6">
         <div>
-          <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>Stay in touch</h2>
-          <p className="mt-2 text-neutral-700">We write slowly. When we have something worth saying.</p>
+          <h2 className="font-serif text-2xl" style={{ color: COLORS.primary }}>{t.stayInTouch}</h2>
+          <p className="mt-2 text-neutral-700">{t.stayInTouchDesc}</p>
         </div>
         <form onSubmit={onSubmit} className="flex items-center gap-2">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="w-full rounded-lg border px-3 py-2" required />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t.email} className="w-full rounded-lg border px-3 py-2" required />
           <button type="submit" className="rounded-lg px-4 py-2 text-white" style={{ background: COLORS.primary }}>
-            Join
+            {t.join}
           </button>
         </form>
-        {ok && <div className="text-sm text-green-700">Subscribed. Thank you.</div>}
+        {ok && <div className="text-sm text-green-700">{t.subscribed}</div>}
       </div>
     </section>
   );
 }
 
 function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="mt-16 py-10 text-center text-sm text-neutral-600">
-      © {new Date().getFullYear()} Sumiko — Let the leaves speak.
+      © {new Date().getFullYear()} Sumiko — {t.heroSubtitle}
     </footer>
   );
 }
@@ -673,6 +924,7 @@ function Footer() {
 function ProductModal({ open, teaId, onClose }) {
   const [tea, setTea] = useState(null);
   const cart = useCart();
+  const { t } = useLanguage();
   useEffect(() => {
     if (!open || !teaId) return;
     Api.fetchTeaById(teaId).then(setTea).catch(()=>setTea(null));
@@ -694,15 +946,15 @@ function ProductModal({ open, teaId, onClose }) {
               <p className="text-sm text-neutral-600">{tea.notes}</p>
               <div className="mt-4 flex items-center justify-between">
                 <span className="font-medium" style={{ color: COLORS.primary }}>{formatPrice(tea.priceCents)}</span>
-                <button onClick={() => cart.add(tea, 1)} className="px-4 py-2 rounded-lg text-white" style={{ background: COLORS.primary }}>Add to cart</button>
+                <button onClick={() => cart.add(tea, 1)} className="px-4 py-2 rounded-lg text-white" style={{ background: COLORS.primary }}>{t.addToCart}</button>
               </div>
               <div className="mt-4 text-right">
-                <button onClick={onClose} className="px-3 py-1.5 rounded-lg border text-sm" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>Close</button>
+                <button onClick={onClose} className="px-3 py-1.5 rounded-lg border text-sm" style={{ borderColor: COLORS.primary, color: COLORS.primary }}>{t.close}</button>
               </div>
             </div>
           </>
         ) : (
-          <div className="p-8">Loading…</div>
+          <div className="p-8">{t.loading}</div>
         )}
       </div>
     </div>
@@ -712,6 +964,7 @@ function ProductModal({ open, teaId, onClose }) {
 function CartDrawer({ open, onClose }) {
   const cart = useCart();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const { t } = useLanguage();
   if (!open) return null;
 
   return (
@@ -719,11 +972,11 @@ function CartDrawer({ open, onClose }) {
       <div className="flex-1 bg-black/40" onClick={onClose} />
       <aside className="w-full max-w-md bg-white h-full shadow-xl p-5 overflow-y-auto">
         <div className="flex items-center justify-between">
-          <h3 className="font-serif text-xl" style={{ color: COLORS.primary }}>Your Cart</h3>
-          <button onClick={onClose} className="text-sm underline">Close</button>
+          <h3 className="font-serif text-xl" style={{ color: COLORS.primary }}>{t.yourCart}</h3>
+          <button onClick={onClose} className="text-sm underline">{t.close}</button>
         </div>
         {cart.items.length === 0 ? (
-          <p className="mt-6 text-neutral-600">Your cart is empty.</p>
+          <p className="mt-6 text-neutral-600">{t.cartEmpty}</p>
         ) : (
           <div className="mt-4 space-y-3">
             {cart.items.map((it) => (
@@ -733,19 +986,19 @@ function CartDrawer({ open, onClose }) {
                   <div className="font-medium text-neutral-800">{it.name}</div>
                   <div className="text-sm text-neutral-600">{formatPrice(it.priceCents)}</div>
                   <div className="mt-1 flex items-center gap-2 text-sm">
-                    <label>Qty</label>
+                    <label>{t.qty}</label>
                     <input type="number" min={1} value={it.qty} onChange={(e)=>cart.setQty(it.id, parseInt(e.target.value||"1",10))} className="w-16 border rounded px-2 py-1" />
-                    <button onClick={()=>cart.remove(it.id)} className="ml-auto text-red-600 underline">Remove</button>
+                    <button onClick={()=>cart.remove(it.id)} className="ml-auto text-red-600 underline">{t.remove}</button>
                   </div>
                 </div>
               </div>
             ))}
             <div className="border-t pt-3 text-sm">
-              <div className="flex justify-between"><span>Subtotal</span><span>{formatPrice(cart.subtotal)}</span></div>
-              <div className="flex justify-between"><span>Shipping</span><span>{cart.shippingCents===0?"Free":formatPrice(cart.shippingCents)}</span></div>
-              <div className="flex justify-between font-medium mt-1" style={{ color: COLORS.primary }}><span>Total</span><span>{formatPrice(cart.total)}</span></div>
+              <div className="flex justify-between"><span>{t.subtotal}</span><span>{formatPrice(cart.subtotal)}</span></div>
+              <div className="flex justify-between"><span>{t.shipping}</span><span>{cart.shippingCents===0?t.free:formatPrice(cart.shippingCents)}</span></div>
+              <div className="flex justify-between font-medium mt-1" style={{ color: COLORS.primary }}><span>{t.total}</span><span>{formatPrice(cart.total)}</span></div>
             </div>
-            <button onClick={()=>setCheckoutOpen(true)} className="w-full rounded-lg py-2 text-white" style={{ background: COLORS.primary }}>Checkout</button>
+            <button onClick={()=>setCheckoutOpen(true)} className="w-full rounded-lg py-2 text-white" style={{ background: COLORS.primary }}>{t.checkout}</button>
           </div>
         )}
         {checkoutOpen && <CheckoutModal onClose={()=>setCheckoutOpen(false)} />}
@@ -758,6 +1011,7 @@ function CheckoutModal({ onClose }) {
   const cart = useCart();
   const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState(null);
+  const { t } = useLanguage();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -772,23 +1026,23 @@ function CheckoutModal({ onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="w-full max-w-xl bg-white rounded-2xl p-6 shadow-xl">
         <div className="flex items-center justify-between">
-          <h4 className="font-serif text-xl" style={{ color: COLORS.primary }}>Checkout</h4>
-          <button onClick={onClose} className="text-sm underline">Close</button>
+          <h4 className="font-serif text-xl" style={{ color: COLORS.primary }}>{t.checkout}</h4>
+          <button onClick={onClose} className="text-sm underline">{t.close}</button>
         </div>
         <form onSubmit={onSubmit} className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-          <input name="firstName" placeholder="First name" className="border rounded px-3 py-2" required />
-          <input name="lastName" placeholder="Last name" className="border rounded px-3 py-2" required />
-          <input name="email" type="email" placeholder="Email" className="border rounded px-3 py-2 md:col-span-2" required />
-          <input name="address" placeholder="Address" className="border rounded px-3 py-2 md:col-span-2" required />
-          <input name="city" placeholder="City" className="border rounded px-3 py-2" required />
-          <input name="postal" placeholder="Postal code" className="border rounded px-3 py-2" required />
-          <textarea name="notes" placeholder="Notes (optional)" className="border rounded px-3 py-2 md:col-span-2" rows={3} />
+          <input name="firstName" placeholder={t.firstName} className="border rounded px-3 py-2" required />
+          <input name="lastName" placeholder={t.lastName} className="border rounded px-3 py-2" required />
+          <input name="email" type="email" placeholder={t.email} className="border rounded px-3 py-2 md:col-span-2" required />
+          <input name="address" placeholder={t.address} className="border rounded px-3 py-2 md:col-span-2" required />
+          <input name="city" placeholder={t.city} className="border rounded px-3 py-2" required />
+          <input name="postal" placeholder={t.postalCode} className="border rounded px-3 py-2" required />
+          <textarea name="notes" placeholder={t.notes} className="border rounded px-3 py-2 md:col-span-2" rows={3} />
           <div className="md:col-span-2 flex items-center justify-between mt-2">
-            <div className="text-sm text-neutral-700">Amount due: <span className="font-medium" style={{ color: COLORS.primary }}>{formatPrice(cart.total)}</span></div>
-            <button disabled={loading} className="rounded-lg px-4 py-2 text-white" style={{ background: COLORS.primary }}>{loading?"Processing…":"Pay now (stub)"}</button>
+            <div className="text-sm text-neutral-700">{t.amountDue} <span className="font-medium" style={{ color: COLORS.primary }}>{formatPrice(cart.total)}</span></div>
+            <button disabled={loading} className="rounded-lg px-4 py-2 text-white" style={{ background: COLORS.primary }}>{loading?t.processing:t.payNow}</button>
           </div>
         </form>
-        {ok && <div className="mt-3 text-green-700 text-sm">Order created (server stub). Replace with real gateway.</div>}
+        {ok && <div className="mt-3 text-green-700 text-sm">{t.orderCreated}</div>}
       </div>
     </div>
   );
@@ -805,18 +1059,20 @@ export default function App() {
   };
 
   return (
-    <CartProvider>
-      <SiteLayout>
-        <Hero onScrollToTeas={() => teasRef.current?.scrollIntoView({ behavior: "smooth" })} />
-        <div ref={teasRef}><Teas onOpenDetail={onOpenDetail} /></div>
-        <Ritual />
-        <Journal />
-        <StoryTeaser />
-        <Contact />
+    <LanguageProvider>
+      <CartProvider>
+        <SiteLayout>
+          <Hero onScrollToTeas={() => teasRef.current?.scrollIntoView({ behavior: "smooth" })} />
+          <div ref={teasRef}><Teas onOpenDetail={onOpenDetail} /></div>
+          <Ritual />
+          <Journal />
+          <StoryTeaser />
+          <Contact />
 
-        <ProductModal open={modalOpen} teaId={activeTeaId} onClose={() => setModalOpen(false)} />
-      </SiteLayout>
-    </CartProvider>
+          <ProductModal open={modalOpen} teaId={activeTeaId} onClose={() => setModalOpen(false)} />
+        </SiteLayout>
+      </CartProvider>
+    </LanguageProvider>
   );
 }
 
