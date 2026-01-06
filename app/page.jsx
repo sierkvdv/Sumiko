@@ -613,35 +613,48 @@ function Hero({ onScrollToTeas }) {
     setPlumes(generated);
   }, []);
 
-  // Handle video end and switch - iOS compatible
+  // Handle video end and switch - iOS compatible with crossfade
   React.useEffect(() => {
     const currentVideo = videoRefs[activeVideo].current;
     if (!currentVideo) return;
+
+    // Start crossfade 1 second before video ends
+    const handleTimeUpdate = () => {
+      const duration = currentVideo.duration;
+      const currentTime = currentVideo.currentTime;
+      if (duration && currentTime > 0 && duration - currentTime <= 1) {
+        // 1 second before end - start next video with crossfade
+        const nextIndex = (currentVideoIndex + 1) % videos.length;
+        const nextVideo = videoRefs[1 - activeVideo].current;
+        
+        if (nextVideo && nextVideo.readyState >= 3) {
+          // Video is ready, start playing it behind current one
+          nextVideo.currentTime = 0;
+          nextVideo.play().catch(() => {});
+        }
+      }
+    };
 
     const handleVideoEnd = () => {
       const nextIndex = (currentVideoIndex + 1) % videos.length;
       const nextVideo = videoRefs[1 - activeVideo].current;
       
-      // Switch to next video immediately (it should be preloaded)
+      // Switch to next video (should already be playing due to crossfade)
       setActiveVideo(1 - activeVideo);
       setCurrentVideoIndex(nextIndex);
       
-      if (nextVideo) {
-        nextVideo.setAttribute('playsinline', 'true');
-        nextVideo.setAttribute('webkit-playsinline', 'true');
-        nextVideo.currentTime = 0;
-        if (nextVideo.readyState >= 2) {
-          nextVideo.play().catch(() => {});
-        } else {
-          nextVideo.addEventListener('canplaythrough', () => {
-            nextVideo.play().catch(() => {});
-          }, { once: true });
-        }
+      // Ensure it's playing
+      if (nextVideo && nextVideo.paused) {
+        nextVideo.play().catch(() => {});
       }
     };
 
+    currentVideo.addEventListener('timeupdate', handleTimeUpdate);
     currentVideo.addEventListener('ended', handleVideoEnd);
-    return () => currentVideo.removeEventListener('ended', handleVideoEnd);
+    return () => {
+      currentVideo.removeEventListener('timeupdate', handleTimeUpdate);
+      currentVideo.removeEventListener('ended', handleVideoEnd);
+    };
   }, [currentVideoIndex, activeVideo, videos.length]);
 
   // Ensure current video plays and preload next - iOS compatible with user interaction
@@ -684,14 +697,32 @@ function Hero({ onScrollToTeas }) {
       document.addEventListener('click', tryPlayOnInteraction, { once: true });
     }
 
-    // Preload next video
+    // Preload next video completely
     if (nextVideo) {
       nextVideo.setAttribute('playsinline', 'true');
       nextVideo.setAttribute('webkit-playsinline', 'true');
       nextVideo.setAttribute('x5-playsinline', 'true');
       nextVideo.muted = true;
+      nextVideo.volume = 0;
       nextVideo.controls = false;
+      nextVideo.preload = 'auto';
+      
+      // Load and wait for it to be ready
       nextVideo.load();
+      
+      // Ensure it's ready to play immediately when needed
+      const ensureReady = () => {
+        if (nextVideo.readyState < 3) {
+          nextVideo.load();
+        }
+      };
+      nextVideo.addEventListener('loadedmetadata', ensureReady, { once: true });
+      nextVideo.addEventListener('canplay', ensureReady, { once: true });
+      nextVideo.addEventListener('canplaythrough', () => {
+        // Video is fully ready, pause it until we need it
+        nextVideo.pause();
+        nextVideo.currentTime = 0;
+      }, { once: true });
     }
   }, [currentVideoIndex, activeVideo]);
   
@@ -810,12 +841,13 @@ function Hero({ onScrollToTeas }) {
         {/* Foreground rotating videos */}
         {videoRefs.map((ref, i) => {
           const videoIndex = i === activeVideo ? currentVideoIndex : (currentVideoIndex + 1) % videos.length;
+          const isActive = i === activeVideo;
           return (
             <video
-              key={i}
+              key={`${i}-${videoIndex}`}
               ref={ref}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                i === activeVideo ? 'z-10 opacity-60' : 'z-0 opacity-0'
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${
+                isActive ? 'z-10 opacity-60' : 'z-[9] opacity-0'
               }`}
               muted
               loop={false}
