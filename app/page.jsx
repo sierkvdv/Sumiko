@@ -119,8 +119,8 @@ function SiteLayout({ children }) {
   }, []);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* Full-page background loop video */}
+    <>
+      {/* Full-page background loop video - MUST be first */}
       <video
         ref={backgroundVideoRef}
         style={{ 
@@ -130,7 +130,8 @@ function SiteLayout({ children }) {
           width: '100vw', 
           height: '100vh', 
           zIndex: 0,
-          objectFit: 'cover'
+          objectFit: 'cover',
+          backgroundColor: 'transparent'
         }}
         muted
         loop
@@ -158,14 +159,14 @@ function SiteLayout({ children }) {
         }} 
       />
       
-      {/* Content */}
-      <div style={{ position: 'relative', zIndex: 10, color: COLORS.ink }}>
+      {/* Content container */}
+      <div style={{ position: 'relative', minHeight: '100vh', zIndex: 10, color: COLORS.ink }}>
         <TopBar onOpenCart={() => setOpen(true)} cartCount={cart.items.reduce((n,i)=>n+i.qty,0)} />
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">{children}</main>
         <Footer />
         <CartDrawer open={open} onClose={() => setOpen(false)} />
       </div>
-    </div>
+    </>
   );
 }
 
