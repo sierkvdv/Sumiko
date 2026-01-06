@@ -259,15 +259,15 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
         }
 
-        /* Broad cloud plumes - constant coverage with smoother transitions, starting from bottom */
+        /* Broad cloud plumes - constant coverage with smoother transitions, starting from below viewport */
         @keyframes plumeRise {
-          0% { transform: translate(var(--px,0), 0px) scale(calc(var(--ps,1) * .92)) rotate(var(--pr,0deg)); opacity: .2; }
-          10% { transform: translate(var(--px,0), 20px) scale(calc(var(--ps,1) * .94)) rotate(var(--pr,0deg)); opacity: .4; }
-          25% { transform: translate(var(--px,0), 60px)  scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg)); opacity: .55; }
-          50% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -40px) scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
-          75% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -160px) scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
-          90% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -240px) scale(calc(var(--ps,1) * 1.09)) rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
-          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -300px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
+          0% { transform: translate(var(--px,0), -100px) scale(calc(var(--ps,1) * .92)) rotate(var(--pr,0deg)); opacity: .2; }
+          10% { transform: translate(var(--px,0), -80px) scale(calc(var(--ps,1) * .94)) rotate(var(--pr,0deg)); opacity: .4; }
+          25% { transform: translate(var(--px,0), -40px)  scale(calc(var(--ps,1) * .96)) rotate(var(--pr,0deg)); opacity: .55; }
+          50% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -140px) scale(calc(var(--ps,1) * 1.02)) rotate(calc(var(--pr,0deg) + 2deg)); opacity: .75; }
+          75% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -260px) scale(calc(var(--ps,1) * 1.06)) rotate(calc(var(--pr,0deg) + 4deg)); opacity: .65; }
+          90% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -340px) scale(calc(var(--ps,1) * 1.09)) rotate(calc(var(--pr,0deg) + 5deg)); opacity: .4; }
+          100% { transform: translate(calc(var(--px,0) + var(--pdrift,30px)), -400px) scale(calc(var(--ps,1) * 1.12)) rotate(calc(var(--pr,0deg) + 6deg)); opacity: .1; }
         }
         .plume {
           position: absolute;
