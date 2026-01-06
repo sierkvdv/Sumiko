@@ -191,7 +191,7 @@ function Hero({ onScrollToTeas }) {
     setPlumes(generated);
   }, []);
 
-  // Handle video end and switch
+  // Handle video end and switch - iOS compatible
   React.useEffect(() => {
     const currentVideo = videoRefs[activeVideo].current;
     if (!currentVideo) return;
@@ -205,6 +205,8 @@ function Hero({ onScrollToTeas }) {
       setCurrentVideoIndex(nextIndex);
       
       if (nextVideo) {
+        nextVideo.setAttribute('playsinline', 'true');
+        nextVideo.setAttribute('webkit-playsinline', 'true');
         nextVideo.currentTime = 0;
         if (nextVideo.readyState >= 2) {
           nextVideo.play().catch(() => {});
@@ -220,13 +222,17 @@ function Hero({ onScrollToTeas }) {
     return () => currentVideo.removeEventListener('ended', handleVideoEnd);
   }, [currentVideoIndex, activeVideo, videos.length]);
 
-  // Ensure current video plays and preload next
+  // Ensure current video plays and preload next - iOS compatible
   React.useEffect(() => {
     const currentVideo = videoRefs[activeVideo].current;
     const nextIndex = (currentVideoIndex + 1) % videos.length;
     const nextVideo = videoRefs[1 - activeVideo].current;
 
     if (currentVideo) {
+      // Set iOS attributes
+      currentVideo.setAttribute('playsinline', 'true');
+      currentVideo.setAttribute('webkit-playsinline', 'true');
+      
       if (currentVideo.readyState >= 2) {
         currentVideo.play().catch(() => {});
       } else {
@@ -237,17 +243,34 @@ function Hero({ onScrollToTeas }) {
       }
     }
 
-    // Preload next video
+    // Preload next video with iOS attributes
     if (nextVideo) {
+      nextVideo.setAttribute('playsinline', 'true');
+      nextVideo.setAttribute('webkit-playsinline', 'true');
       nextVideo.load();
     }
   }, [currentVideoIndex, activeVideo]);
 
-  // Start background loop video
+  // Start background loop video - force play on iOS
   React.useEffect(() => {
     const bgVideo = backgroundVideoRef.current;
     if (bgVideo) {
-      bgVideo.play().catch(() => {});
+      // Force play on iOS
+      bgVideo.setAttribute('playsinline', 'true');
+      bgVideo.setAttribute('webkit-playsinline', 'true');
+      const playPromise = bgVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If autoplay fails, try again after user interaction
+          const tryPlay = () => {
+            bgVideo.play().catch(() => {});
+            document.removeEventListener('touchstart', tryPlay);
+            document.removeEventListener('click', tryPlay);
+          };
+          document.addEventListener('touchstart', tryPlay, { once: true });
+          document.addEventListener('click', tryPlay, { once: true });
+        });
+      }
     }
   }, []);
   return (
@@ -327,6 +350,13 @@ function Hero({ onScrollToTeas }) {
           mix-blend-mode: screen;
           opacity: 0;
         }
+        /* Hide video controls on iOS */
+        video::-webkit-media-controls {
+          display: none !important;
+        }
+        video::-webkit-media-controls-enclosure {
+          display: none !important;
+        }
       `}</style>
 
       {/* Hero background videos - double buffering for seamless transitions */}
@@ -340,6 +370,9 @@ function Hero({ onScrollToTeas }) {
           playsInline
           autoPlay
           preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
         >
           <source src={backgroundVideo} type="video/mp4" />
         </video>
@@ -357,7 +390,11 @@ function Hero({ onScrollToTeas }) {
               muted
               loop={false}
               playsInline
+              autoPlay
               preload="auto"
+              controls={false}
+              disablePictureInPicture
+              disableRemotePlayback
             >
               <source src={videos[videoIndex]} type="video/mp4" />
             </video>
